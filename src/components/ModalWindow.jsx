@@ -60,7 +60,7 @@ const ModalWindow = ({ activeDay, closeModal }) => {
                                 </div>
                                 {selectedSlot?.id === slot.id && (
                                     <div className="slot-expanded">
-                                        <span>Запись на {activeDay.format('DD.MM.YY')} - {activeDay.format('dddd')}</span> на {slot.time}
+                                        <span>Запись {activeDay.format('DD.MM.YY')} - {activeDay.format('dddd')}</span> {slot.time}
                                         <button onClick={(e) => { e.stopPropagation(); handleBooking(slot); }}>
                                             Записаться
                                         </button>
