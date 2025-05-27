@@ -1,0 +1,94 @@
+.modal-date-label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+.slot-item {
+    background-color: var(--background-color);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    padding: 10px 14px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* flex только на первую строку */
+.slot-main {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+/* расширенная часть идёт в следующей строке */
+.slot-expanded {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--background-color);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* стили для кнопки */
+.slot-expanded button {
+    background: var(--background-color);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+
+.slot-item {
+
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.slot-time {
+    color: white;
+    background-color: var(--secondary-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.slot-free {
+    color: var(--text-color);
+    font-weight: bold;
+    padding: 6px 10px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+}
+
+.modal-slots {
+    width: 100%;
+    margin-top: 40px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.modal-slots ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
