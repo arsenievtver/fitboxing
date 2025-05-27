@@ -1,0 +1,150 @@
+@import '_variables.css';
+@font-face {
+    font-family: 'Recama';
+    src: local('Recama'), /* Поддержка ранее установленных шрифтов */
+    url('../assets/fonts/Racama-U.otf') format('opentype'); /* Подключение нашего шрифта */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        position: static; /* Отмена фиксации на маленьких экранах */
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: Recama, sans-serif;
+    line-height: 1.5;
+    background-color: var(--background-color);
+    color: #ffffff;
+    align-items: start;
+    justify-content: space-between;
+}
+
+#root {
+    width: 100%; /* Ширину устанавливаем на 100% окна */
+}
+
+#app-root {
+    position: relative;
+    padding: 10px;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.app-content {
+    width: 100%;
+    flex: 1; /* Главная зона для контента */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 60px;
+}
+
+
+.header {
+    display: flex;
+    background-color: var(--background-color);
+    height: 90px;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;               /* Позиция фиксированная, не прокручивается */
+    top: 0;                       /* Прилеплен сверху */
+    left: 0;                      /* Начальная позиция слева */
+    right: 0;                     /* Расширяется вправо */
+    z-index: 1000;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 1px solid var(--primary-color) ;
+
+
+}
+
+.score {
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.logo-container img {
+    max-width: 250px;
+}
+
+.modal-window {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 400px;
+    max-height: 600px; /* Максимальная высота окна */
+    background-color: var(--secondary-color); /* Желтый фон */
+    color: var(--text-color); /* Цвет текста черный */
+    z-index: 1000; /* Поверх остальных элементов */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px; /* Внутренний отступ */
+    margin-left: 15px;
+    margin-right: 15px;
+    border: 1px solid;
+    border-top-color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    border-right-color: var(--primary-color);
+    border-bottom-color: var(--secondary-color);
+    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5); /* Тень сверху */
+    border-top-left-radius: 15px; /* Скругленные углы вверху слева */
+    border-top-right-radius: 15px; /* Скругленные углы вверху справа */
+    animation: slide-up 0.3s ease-in-out forwards; /* Плавная анимация появления */
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%); /* Начинаем вне видимой зоны */
+    }
+    to {
+        transform: translateY(0); /* Заезжаем внутрь окна */
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: color 0.2s, transform 0.2s ease;
+    line-height: 1;
+    padding: 4px;
+    z-index: 10;
+}
+
+.close-button:hover {
+    color: var(--text-color);
+    transform: scale(1.1);
+}
