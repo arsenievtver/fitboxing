@@ -1,6 +1,6 @@
 .navbar-container {
     position: fixed;
-    bottom: 10px;
+    bottom: 30px;
     left: 0;
     right: 0;
     height: 70px;
@@ -36,7 +36,7 @@
 
 .nav-lightning {
     position: relative;
-    top: -10px; /* чуть поднял, чтобы не так высоко */
+    top: -30px; /* чуть поднял, чтобы не так высоко */
     width: 50px;
     height: 60px;
     border-radius: 20px;
