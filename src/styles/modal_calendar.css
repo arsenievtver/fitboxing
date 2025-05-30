@@ -42,7 +42,6 @@
 /* стили для кнопки */
 .slot-expanded button {
     background: var(--background-color);
-    border: none;
     padding: 8px 14px;
     margin-left: 10px;
     border-radius: 6px;
@@ -57,7 +56,7 @@
 
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
+    padding: 5px 10px;
     background-color: var(--background-color);
     border-radius: 10px;
     margin-bottom: 6px;
@@ -82,9 +81,11 @@
 
 .modal-slots {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 16px;
     color: var(--text-color);
+    flex: 1;
+    overflow-y: auto;
 }
 
 .modal-slots ul {

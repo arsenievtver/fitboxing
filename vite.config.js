@@ -1,11 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
-// https://vite.dev/config/
 export default defineConfig({
+  plugins: [
+    react(),
+    svgr({
+      exportAsDefault: false, // чтобы можно было писать { ReactComponent as ... }
+    })
+  ],
   server: {
-    // разрешаем использование указанного домена
     allowedHosts: ['f156-89-23-103-229.ngrok-free.app']
-  },
-  plugins: [react()],
-})
+  }
+});

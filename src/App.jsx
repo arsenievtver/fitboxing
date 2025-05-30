@@ -1,22 +1,26 @@
-// App.jsx
 import React from 'react';
-import Header from "./components/Header";
-import WeekCalendar from './components/WeekCalendar';
-import EnergyBar from './components/EnergyBar';
-import VideoPlayer from './components/VideoPlayer';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-const App = () => {
+import HomePage from './pages/HomePage';
+import FinancePage from './pages/FinancePage';
+import EnergyPage from './pages/EnergyPage';
+import UserPage from './pages/UserPage';
+import Footer from './components/Footer';
+
+const AppRouter = () => {
     return (
-        <div id="app-root">
-            <Header />
-            <div className="app-content">
-                <h2>Запишись на тренировку!</h2>
-                <WeekCalendar />
-                <EnergyBar start_bar={0} end_bar={800} count_bar={520} />
-                <VideoPlayer vimeoId="1088731673" />
-            </div>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/finance" element={<FinancePage />} />
+                <Route path="/energy" element={<EnergyPage />} />
+                <Route path="/user" element={<UserPage />} />
+                <Route path="/" element={<Navigate to="/home" replace />} />
+            </Routes>
+            <Footer />
+        </Router>
     );
 };
 
-export default App;
+export default AppRouter;
+
