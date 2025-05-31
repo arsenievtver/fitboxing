@@ -7,7 +7,7 @@ const Header = () => {
                 <h2>Привет, Алексей</h2>
             </div>
             <nav className="score">
-                54 {/* Символ гамбургера */}
+                <a>34 </a>
             </nav>
         </header>
     );

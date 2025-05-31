@@ -3,8 +3,8 @@
   "short_name": "Fitboxing App",
   "start_url": "/home",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#21242b",
+  "theme_color": "#21242b",
   "icons": [
     {
       "src": "/icons/logo 192.png",
