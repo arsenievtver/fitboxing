@@ -3,7 +3,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 100px;
+    height: 80px;
     background-color: var(--secondary-color);
     display: flex;
     justify-content: space-around;
@@ -36,7 +36,7 @@
 
 .nav-lightning {
     position: relative;
-    top: -35px; /* чуть поднял, чтобы не так высоко */
+    top: -25px; /* чуть поднял, чтобы не так высоко */
     width: 50px;
     height: 60px;
     border-radius: 20px;
