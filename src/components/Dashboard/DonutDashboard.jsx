@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/DonutDashboard.css';
+import '../IconButtons/DonutDashboard.css';
 
 const Donut = ({ value, label, size = 100, duration = 1000, color = 'var(--primary-color)' }) => {
     const [animatedValue, setAnimatedValue] = useState(0);

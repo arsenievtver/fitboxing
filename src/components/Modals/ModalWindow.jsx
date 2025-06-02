@@ -1,7 +1,7 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
-import CloseButton from './CloseButton';
-import '../styles/modal_calendar.css';
+import CloseButton from '../IconButtons/CloseButton.jsx';
+import './modal_calendar.css';
 import { fetchAvailableSlots } from '/api/airtableClient.js';
 
 const ModalWindow = ({ activeDay, closeModal }) => {

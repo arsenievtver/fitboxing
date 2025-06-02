@@ -1,8 +1,8 @@
 import React from 'react';
 import MainLayout from '../components/layouts/MainLayout';
-import DonutDashboard from '../components/DonutDashboard';
-import '../styles/DonutDashboard.css'; // подключаем стили
-import WeightChart from '../components/WeightChart';
+import DonutDashboard from '../components/Dashboard/DonutDashboard.jsx';
+import '../components/IconButtons/DonutDashboard.css'; // подключаем стили
+import WeightChart from '../components/Charts/WeightChart.jsx';
 
 const mockData = [
     { date: '01.01', weight: 78.2 },

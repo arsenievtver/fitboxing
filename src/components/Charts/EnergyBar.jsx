@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/energybar.css';
+import './energybar.css';
 
 const EnergyBar = ({ start_bar = 0, end_bar = 800, count_bar = 500 }) => {
     const percentage = Math.min(100, Math.max(0, ((count_bar - start_bar) / (end_bar - start_bar)) * 100));

@@ -2,10 +2,10 @@
 
 import React from 'react';
 import MainLayout from '../components/layouts/MainLayout';
-import WeekCalendar from '../components/WeekCalendar';
-import EnergyBar from '../components/EnergyBar';
-import VideoPlayer from '../components/VideoPlayer';
-import DonutDashboard from "../components/DonutDashboard.jsx";
+import WeekCalendar from '../components/Calendar/WeekCalendar.jsx';
+import EnergyBar from '../components/Charts/EnergyBar.jsx';
+import VideoPlayer from '../components/Videoplayer/VideoPlayer.jsx';
+import DonutDashboard from "../components/Dashboard/DonutDashboard.jsx";
 
 const HomePage = () => {
     return (

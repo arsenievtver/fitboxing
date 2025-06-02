@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
     LineChart,
     Line,
@@ -8,8 +8,8 @@ import {
     CartesianGrid,
     ResponsiveContainer
 } from 'recharts';
-import ButtonMy from './ButtonMy';
-
+import ButtonMy from '../Buttons/ButtonMy';
+import ModalBase from '../Modals/ModalBase.jsx'; // подключаем модалку
 
 const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -22,7 +22,9 @@ const CustomTooltip = ({ active, payload }) => {
     return null;
 };
 
-const WeightChart = ({ data = [], onAddMeasurement }) => {
+const WeightChart = ({ data = [] }) => {
+    const [showModal, setShowModal] = useState(false);
+
     const { yMin, yMax } = useMemo(() => {
         if (data.length === 0) return { yMin: 0, yMax: 100 };
         const weights = data.map(entry => entry.weight);
@@ -35,22 +37,16 @@ const WeightChart = ({ data = [], onAddMeasurement }) => {
         };
     }, [data]);
 
-    if (data.length === 0) {
-        return (
-            <div style={{ padding: 0, color: '#ccc' }}>
-                <p>Нет данных для отображения.</p>
-                <ButtonMy onClick={onAddMeasurement}>Добавить измерение</ButtonMy>
-            </div>
-        );
-    }
+    const handleOpenModal = () => setShowModal(true);
 
     return (
-        <div style={{ width: '100%', height: 320 }}>
+        <div style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                 <h3 style={{ textAlign: 'left', margin: 0 }}>Динамика веса</h3>
-                <ButtonMy onClick={onAddMeasurement}>Добавить измерение</ButtonMy>
+                <ButtonMy onClick={handleOpenModal}>Добавить измерение</ButtonMy>
             </div>
-            <ResponsiveContainer>
+
+            <ResponsiveContainer height={320}>
                 <LineChart
                     data={data}
                     margin={{ top: 10, right: 20, left: -30, bottom: 30 }}
@@ -71,8 +67,18 @@ const WeightChart = ({ data = [], onAddMeasurement }) => {
                     />
                 </LineChart>
             </ResponsiveContainer>
+
+            {showModal && (
+                <ModalBase onClose={() => setShowModal(false)}>
+                    <div>
+                        <h3 style={{ marginTop: 0 }}>Добавить измерение</h3>
+                        {/* Вставь сюда форму или интерфейс добавления */}
+                    </div>
+                </ModalBase>
+            )}
         </div>
     );
 };
 
 export default WeightChart;
+

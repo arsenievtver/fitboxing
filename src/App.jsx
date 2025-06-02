@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import FinancePage from './pages/FinancePage';
 import EnergyPage from './pages/EnergyPage';
 import UserPage from './pages/UserPage';
-import Footer from './components/Footer';
+import Footer from './components/Footer/Footer.jsx';
 
 const AppRouter = () => {
     return (

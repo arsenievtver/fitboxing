@@ -1,7 +1,7 @@
 // src/components/layouts/MainLayout.jsx
 
 import React from 'react';
-import Header from '../Header';
+import Header from '../Header/Header.jsx';
 
 const MainLayout = ({ children }) => {
     return (
