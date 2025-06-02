@@ -9,7 +9,9 @@ import {
     ResponsiveContainer
 } from 'recharts';
 import ButtonMy from '../Buttons/ButtonMy';
-import ModalBase from '../Modals/ModalBase.jsx'; // подключаем модалку
+import ModalBase from '../Modals/ModalBase.jsx';
+import DateInput from "../Forms/DateInput.jsx";
+import InputBase from '../Forms/InputBase.jsx';
 
 const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
@@ -72,6 +74,21 @@ const WeightChart = ({ data = [] }) => {
                 <ModalBase onClose={() => setShowModal(false)}>
                     <div>
                         <h3 style={{ marginTop: 0 }}>Добавить измерение</h3>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',  // раскидывает элементы по краям
+                            alignItems: 'flex-start',          // прижимает кверху
+                            width: '100%'                      // занимает всю ширину родителя
+                        }}>
+                            <DateInput />
+                            <InputBase
+                                placeholder="Введите вес"
+                            />
+                            <ButtonMy onClick={() => { /* пока пусто */ }}>
+                                Записать
+                            </ButtonMy>
+                        </div>
+
                         {/* Вставь сюда форму или интерфейс добавления */}
                     </div>
                 </ModalBase>
