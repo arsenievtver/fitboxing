@@ -74,16 +74,10 @@ const WeightChart = ({ data = [] }) => {
                 <ModalBase onClose={() => setShowModal(false)}>
                     <div>
                         <h3 style={{ marginTop: 0 }}>Добавить измерение</h3>
-                        <div style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',  // раскидывает элементы по краям
-                            alignItems: 'flex-start',          // прижимает кверху
-                            width: '100%'                      // занимает всю ширину родителя
-                        }}>
+
+                        <div className="modal-content">
                             <DateInput />
-                            <InputBase
-                                placeholder="Введите вес"
-                            />
+                            <InputBase placeholder="Введите вес" />
                             <ButtonMy onClick={() => { /* пока пусто */ }}>
                                 Записать
                             </ButtonMy>
@@ -92,6 +86,7 @@ const WeightChart = ({ data = [] }) => {
                         {/* Вставь сюда форму или интерфейс добавления */}
                     </div>
                 </ModalBase>
+
             )}
         </div>
     );
