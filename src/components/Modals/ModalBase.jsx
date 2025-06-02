@@ -5,7 +5,7 @@ import CloseButton from '../IconButtons/CloseButton';
 const Modal = ({ children, onClose }) => {
     return (
         <div className="modal-overlay">
-            <div className="modal-window">
+            <div className="modal-window-base">
                 <div className="modal-header">
                     <CloseButton onClick={onClose} />
                 </div>

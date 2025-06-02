@@ -6,6 +6,7 @@ import ru from 'dayjs/locale/ru';
 import { useSwipeable } from 'react-swipeable';
 import { AnimatePresence, motion } from 'framer-motion';
 import './calendar.css';
+import '../Modals/modal_calendar.css';
 import ModalWindow from '../Modals/ModalWindow.jsx';
 
 dayjs.extend(localizedFormat);

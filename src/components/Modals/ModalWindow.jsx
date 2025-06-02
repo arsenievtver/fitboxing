@@ -37,7 +37,7 @@ const ModalWindow = ({ activeDay, closeModal }) => {
     };
 
     return (
-        <div className="modal-window">
+        <div className="modal-window-bottom">
             <CloseButton onClick={closeModal} />
             {activeDay && dayjs.isDayjs(activeDay) ? (
                 <p className="modal-date-label">
