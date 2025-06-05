@@ -1,0 +1,90 @@
+/* calendar.css */
+
+.slide-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    height: fit-content;
+    min-height: 100px; /* Зафиксируй высоту под календарь */
+    align-content: center;
+    border-radius: 20px;
+    display: flex;                /* добавляем! */
+    align-items: stretch;
+}
+
+.calendar-wrapper {
+    position: absolute;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+    left: 0;
+}
+
+.calendar-week {
+    display: flex;
+    width: 100%;
+    flex-direction: row; /* 🔥 Меняем направление на горизонтальное */
+    padding: 10px;
+    justify-content: space-between;
+    gap: 10px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    font-size: 16px;
+    flex-shrink: 0; /* Гарантированно занимаем всю ширину */
+}
+
+.calendar-day {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% / 7); /* Семь колонок для равномерного размещения */
+}
+
+.weekday-line {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.date-circle {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%; /* Круглая форма */
+    border: 1px solid var(--background-color);
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.today .date-circle {
+    border: 1px solid var(--primary-color);
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.today .weekday-line {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.active .date-circle {
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+    color: black;
+}
+
+.active .weekday-line {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+
+
