@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import InputBase from "../components/Forms/InputBase.jsx";
+import ButtonMy from "../components/Buttons/ButtonMy.jsx";
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -14,12 +16,15 @@ const LoginPage = () => {
     return (
         <div className="conteiner">
             <div className="text-bottom">
-                <h2>Бинты на руки – и в зал!</h2>
+                <h2 style={{color: 'var(--primary-color)'}}>Привет</h2>
+                <p>Бинты на руки и в зал!</p>
             </div>
-            <div className="buttons">
-                <input placeholder="Email" />
-                <input placeholder="Пароль" type="password" />
-                <button onClick={handleLogin}>Войти</button>
+            <div className="bottom-container">
+                <div className="input">
+                    <InputBase placeholder="Введите телефон" />
+                    <InputBase placeholder="Введите Пароль" type="password" />
+                    <ButtonMy onClick={handleLogin}> Войти </ButtonMy>
+                </div>
             </div>
         </div>
     );

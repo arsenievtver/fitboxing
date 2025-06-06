@@ -2,7 +2,7 @@
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url("../../public/images/start2.webp");
+    background-image: url("../assets/images/start2.webp");
     background-size: cover;
     background-position: center;
     overflow: hidden;
@@ -51,6 +51,6 @@
     background-color: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
-    border-radius: 8px;
+    border-radius: 10px;
     transition: all 0.3s ease;
 }

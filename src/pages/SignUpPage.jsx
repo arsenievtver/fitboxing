@@ -1,23 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import InputBase from "../components/Forms/InputBase.jsx";
+import ButtonMy from "../components/Buttons/ButtonMy.jsx";
+import './SignUpPage.css'; // убедись, что ты подключаешь CSS
 
 const SignUpPage = () => {
     const navigate = useNavigate();
-
-    const handleSignin = () => {
-        // тут позже будет логика регистрации
+    const handleSignup = () => {
         localStorage.setItem('isLoggedIn', 'true');
         navigate('/home');
     };
 
     return (
-        <div style={{ padding: 40 }}>
-            <h2>Регистрация</h2>
-            <input placeholder="Email" />
-            <input placeholder="Пароль" type="password" />
-            <button onClick={handleSignin}>Зарегистрироваться</button>
+        <div className="box-content-signup">
+            <div className="text-wrapper">
+                <h2>Привет</h2>
+                <p>Добро пожаловать в команду</p>
+            </div>
+            <div className="form-wrapper">
+                <InputBase placeholder="Введите телефон" />
+                <InputBase placeholder="Введите имя" />
+                <InputBase placeholder="Введите Пароль" type="password" />
+                <InputBase placeholder="Повторите пароль" type="password" />
+                <ButtonMy onClick={handleSignup}>Зарегистрироваться</ButtonMy>
+            </div>
         </div>
     );
 };
 
 export default SignUpPage;
+

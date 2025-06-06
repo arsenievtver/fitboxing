@@ -26,10 +26,12 @@ html, body {
     color: #ffffff;
     align-items: start;
     justify-content: space-between;
+    height: 100%;
 }
 
 #root {
     width: 100%; /* Ширину устанавливаем на 100% окна */
+    height: 100%;
 }
 
 #app-root {

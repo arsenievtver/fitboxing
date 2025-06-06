@@ -6,8 +6,8 @@ import FinancePage from './pages/FinancePage';
 import EnergyPage from './pages/EnergyPage';
 import UserPage from './pages/UserPage';
 import Footer from './components/Footer/Footer.jsx';
-import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage.jsx';
+import SignUpPage from './pages/SignUpPage.jsx';
 import StartPage from "./pages/StartPage.jsx";
 
 
