@@ -1,7 +1,7 @@
 .start-container {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background-image: url("../assets/images/start2.webp");
     background-size: cover;
     background-position: center;
@@ -21,7 +21,6 @@
 .start-content {
     position: relative;
     z-index: 2;
-    top: -40px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -32,16 +31,19 @@
 
 .start-top {
     text-align: center;
+    position: relative;
+    top: -50px;
 }
 
 .start-bottom {
     position: absolute;
-    bottom: 40px;
+    bottom: 0;
     align-self: center;
     display: flex;
     justify-content: center;
     gap: 20px;
     flex-direction: column;
+    margin: 20px;
 }
 
 .start-button {
@@ -53,4 +55,23 @@
     border: 1px solid var(--primary-color);
     border-radius: 10px;
     transition: all 0.3s ease;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: var(--primary-color); /* можно заменить на нужный цвет */
+    font-size: 16px;
+    padding: 8px;
+}
+.back-button:hover {
+    text-decoration: none;
+    opacity: 0.8;
 }
