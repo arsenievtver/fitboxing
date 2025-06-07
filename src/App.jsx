@@ -6,8 +6,6 @@ import FinancePage from './pages/FinancePage';
 import EnergyPage from './pages/EnergyPage';
 import UserPage from './pages/UserPage';
 import Footer from './components/Footer/Footer.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import SignUpPage from './pages/SignUpPage.jsx';
 import StartPage from "./pages/StartPage.jsx";
 
 
@@ -19,8 +17,6 @@ const AppContent = () => {
     return (
         <>
             <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/finance" element={<FinancePage />} />
                 <Route path="/energy" element={<EnergyPage />} />

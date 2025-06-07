@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../IconButtons/DonutDashboard.css';
 
-const Donut = ({ value, label, size = 100, duration = 1000, color = 'var(--primary-color)' }) => {
+const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primary-color)' }) => {
     const [animatedValue, setAnimatedValue] = useState(0);
 
     const radius = (size - 10) / 2;
