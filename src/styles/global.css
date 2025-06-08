@@ -41,8 +41,10 @@ html, body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-top: 30px;
+    align-items: flex-start; /* или start — но flex-start надёжнее */
+    justify-content: flex-start; /* ВАЖНО: прибивает содержимое к верху */
+    gap: 10px; /* расстояние между элементами */
+    margin-top: 30px; /* если тебе не надо отступ от верха — убери */
 }
 
 .app-header {
@@ -56,19 +58,20 @@ html, body {
 
 .app-content {
     width: 100%;
-    flex: 1; /* Главная зона для контента */
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 60px;
+    justify-content: flex-start; /* Прижимаем вверх */
+    gap: 10px; /* Расстояние между детьми */
+    margin-top: 50px;
 }
 
 
 .header {
     display: flex;
     background-color: var(--background-color);
-    height: 80px;
+    height: 70px;
     justify-content: space-between;
     align-items: center;
     position: fixed;               /* Позиция фиксированная, не прокручивается */
@@ -85,7 +88,7 @@ html, body {
 }
 
 .score {
-    font-size: 30px;
+    font-size: 14px;
     cursor: pointer;
     color: var(--primary-color);
     display: flex;

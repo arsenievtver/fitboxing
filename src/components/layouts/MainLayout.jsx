@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Header from '../Header/Header.jsx';
+import '../../styles/global.css';
 
 const MainLayout = ({ children }) => {
     return (

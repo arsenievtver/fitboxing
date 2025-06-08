@@ -1,19 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import FinancePage from './pages/FinancePage';
 import EnergyPage from './pages/EnergyPage';
 import UserPage from './pages/UserPage';
 import Footer from './components/Footer/Footer.jsx';
-import StartPage from "./pages/StartPage.jsx";
-
-
+import StartPage from './pages/StartPage.jsx';
 
 const AppContent = () => {
     const location = useLocation();
-    const hideFooterRoutes = ['/start', '/login', '/signup', '/'];
+    const hideFooterRoutes = ['/start', '/'];
     const shouldShowFooter = !hideFooterRoutes.includes(location.pathname);
+
     return (
         <>
             <Routes>
@@ -28,11 +27,9 @@ const AppContent = () => {
     );
 };
 
-const AppRouter = () => (
-    <Router>
-        <AppContent />
-    </Router>
-);
+// ⛔️ Удаляем второй Router
+const AppRouter = () => <AppContent />;
 
 export default AppRouter;
+
 
