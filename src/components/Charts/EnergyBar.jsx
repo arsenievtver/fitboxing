@@ -6,7 +6,7 @@ const EnergyBar = ({ start_bar = 0, end_bar = 800, count_bar = 500 }) => {
 
     return (
         <div className="energybar-wrapper">
-            <p className="energybar-title">Ваш прогресс</p>
+            <p className="energybar-title">Твой прогресс</p>
             <div className="energybar-bar">
                 <div
                     className="energybar-fill"

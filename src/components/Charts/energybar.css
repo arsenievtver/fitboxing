@@ -7,7 +7,6 @@
     font-size: 20px;
     margin-bottom: 12px;
     color: var(--text-color, #fff);
-    align-self: start;
 }
 
 .energybar-bar {
