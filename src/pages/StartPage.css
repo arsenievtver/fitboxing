@@ -1,11 +1,47 @@
 .start-container {
     position: relative;
     width: 100%;
+    height: 100vh; /* чтобы занять весь экран */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column; /* по умолчанию вертикально */
+}
+
+.background-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background-image: url("../assets/images/srart1.webp");
+    display: flex;
+    flex-direction: column; /* на мобиле - вертикально */
+    z-index: 0;
+}
+
+.background-wrapper > div {
+    flex: 1; /* обе картинки занимают поровну пространства */
     background-size: cover;
     background-position: center;
-    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+/* Первая картинка */
+.background1 {
+    background-image: url("/public/images/start_men.webp");
+    margin: 40px;
+}
+
+/* Вторая картинка */
+.background2 {
+    background-image: url("/public/images/start_women.webp");
+    margin: 40px;
+}
+
+/* Теперь медиа-запрос для больших экранов: фон по горизонтали */
+@media (min-width: 768px) {
+    .background-wrapper {
+        flex-direction: row; /* теперь рядом */
+    }
 }
 
 .start-overlay {
@@ -24,15 +60,15 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;   /* Центрирует по вертикали */
-    align-items: center;       /* Центрирует по горизонтали */
-    text-align: center;        /* по желанию — центрирует текст */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
 }
 
 .start-top {
     text-align: center;
     position: relative;
-    top: -50px;
 }
 
 .start-bottom {
@@ -68,10 +104,11 @@
 .back-button {
     background: none;
     border: none;
-    color: var(--primary-color); /* можно заменить на нужный цвет */
+    color: var(--primary-color);
     font-size: 16px;
     padding: 8px;
 }
+
 .back-button:hover {
     text-decoration: none;
     opacity: 0.8;

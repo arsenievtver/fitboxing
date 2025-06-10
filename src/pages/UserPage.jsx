@@ -1,7 +1,13 @@
-import React from 'react';
+
+import {logoutUrl, PREFIX} from "../helpers/constants.js";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '../components/layouts/MainLayout';
 import { useUser } from '../context/UserContext';
 import './UserPage.css';
+import ButtonMy from "../components/Buttons/ButtonMy.jsx";
+import { createApi } from '../helpers/ApiClient';
+import { JWT_STORAGE_KEY } from '../helpers/constants';
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '-';
@@ -21,14 +27,31 @@ const UserRow = ({ label, value }) => (
 );
 
 const UserPage = () => {
-    const { user } = useUser();
+    const { user, setUser } = useUser();
+    const navigate = useNavigate();
+    const api = createApi(navigate);
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/'); // Редирект если нет пользователя (не авторизован)
+        }
+    }, [user, navigate]);
+
+    const handleLogout = async () => {
+        try {
+            await api.post(PREFIX+logoutUrl);
+        } catch (error) {
+            console.error('Ошибка при выходе:', error);
+        } finally {
+            localStorage.removeItem(JWT_STORAGE_KEY);
+            setUser(null);
+            navigate('/');
+        }
+    };
 
     if (!user) {
-        return (
-            <MainLayout>
-                <p>Загрузка данных пользователя...</p>
-            </MainLayout>
-        );
+        // Пока пользователь не загрузился или редирект идёт, можно ничего не рендерить
+        return null;
     }
 
     return (
@@ -49,6 +72,7 @@ const UserPage = () => {
                 <UserRow label="Количество тренировок:" value={user.count_trainings ?? 0} />
                 <UserRow label="Дата создания:" value={formatDate(user.created_at)} />
             </div>
+            <ButtonMy onClick={handleLogout} className="button_exit">Выйти</ButtonMy>
         </MainLayout>
     );
 };

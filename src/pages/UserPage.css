@@ -16,4 +16,13 @@
 .user_data {
     width: 100%;
     padding: 16px;
+    max-width: 500px;
+}
+
+.button_exit {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* чтобы была поверх всего */
 }

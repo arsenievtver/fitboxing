@@ -1,16 +1,29 @@
-// src/pages/HomePage.jsx
-
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '../components/layouts/MainLayout';
 import WeekCalendar from '../components/Calendar/WeekCalendar.jsx';
 import EnergyBar from '../components/Charts/EnergyBar.jsx';
 import VideoPlayer from '../components/Videoplayer/VideoPlayer.jsx';
 import DonutDashboard from "../components/Dashboard/DonutDashboard.jsx";
-import { useUser } from '../context/UserContext'; // 👈 Подключаем хук
+import { useUser } from '../context/UserContext';
 
 const HomePage = () => {
-    const { user } = useUser(); // 👈 Получаем пользователя
-    const score = user?.score || 0; // 👈 На случай, если пользователь еще не загружен
+    const { user } = useUser();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!user) {
+            // Если нет пользователя, редиректим на старт/логин
+            navigate('/');
+        }
+    }, [user, navigate]);
+
+    if (!user) {
+        // Пока редирект не сработал — не показываем содержимое
+        return null;
+    }
+
+    const score = user.score || 0;
 
     return (
         <MainLayout>

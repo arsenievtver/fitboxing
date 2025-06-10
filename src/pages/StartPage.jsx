@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './StartPage.css';
 
@@ -9,12 +9,13 @@ import Modal from '../components/Modals/ModalBase';
 import RadioGroup from '../components/Forms/RadioGroup';
 
 import useApi from '../hooks/useApi.hook';
-import { loginUrl, JWT_STORAGE_KEY } from '../helpers/constants';
-import { UserContext } from '../context/UserContext';
+import { loginUrl, JWT_STORAGE_KEY, registerUrl } from '../helpers/constants';
+import { useUser } from '../context/UserContext';
 
 const StartPage = () => {
     const navigate = useNavigate();
     const api = useApi();
+
     const [mode, setMode] = useState(null);
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +25,15 @@ const StartPage = () => {
     const [lastName, setLastName] = useState('');
     const [gender, setGender] = useState('');
     const [error, setError] = useState(null);
-    const { refreshUser } = useContext(UserContext);
+
+    const { user, refreshUser } = useUser();
+
+    // ✅ Редирект, если уже авторизован
+    useEffect(() => {
+        if (user) {
+            navigate('/home');
+        }
+    }, [user, navigate]);
 
     const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -42,6 +51,9 @@ const StartPage = () => {
 
             localStorage.setItem(JWT_STORAGE_KEY, data.access_token);
             await refreshUser();
+
+            closeModal();  // <--- закрываем модалку, сбрасываем поля
+
             navigate('/home');
         } catch (e) {
             setError(e.response?.data?.detail || 'Ошибка входа');
@@ -74,7 +86,7 @@ const StartPage = () => {
                 gender
             };
 
-            await api.post('/api/v1/auth/register', payload, {
+            await api.post(registerUrl, payload, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -100,9 +112,13 @@ const StartPage = () => {
 
     return (
         <div className="start-container">
+            <div className="background-wrapper">
+                <div className="background1"></div>
+                <div className="background2"></div>
+            </div>
             <div className="start-overlay"></div>
-
             <div className="start-content">
+
                 <div className="start-top">
                     <h2 style={{ color: 'var(--primary-color)' }}>Fitboxing club</h2>
                     <p>Начни прямо сейчас!</p>
@@ -178,4 +194,3 @@ const StartPage = () => {
 };
 
 export default StartPage;
-

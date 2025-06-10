@@ -1,6 +1,6 @@
 // src/helpers/ApiClient.js
 import axios from 'axios';
-import { PREFIX, JWT_STORAGE_KEY } from './constants';
+import { PREFIX, JWT_STORAGE_KEY, refreshUrl } from './constants';
 
 export function createApi(navigate) {
 	const api = axios.create({
@@ -42,7 +42,7 @@ export function createApi(navigate) {
 				refreshing = true;
 
 				try {
-					const { data } = await api.post('/api/v1/auth/auth/jwt/refresh', {});
+					const { data } = await api.post(refreshUrl, {});
 					const newToken = data.access_token;
 					localStorage.setItem(JWT_STORAGE_KEY, newToken);
 					api.defaults.headers.Authorization = `Bearer ${newToken}`;
