@@ -92,6 +92,14 @@ const WeekCalendar = () => {
     });
 
     const daysToShow = calculateDayRange(currentDate, 7);
+    const firstDay = daysToShow[0];
+    const lastDay = daysToShow[daysToShow.length - 1];
+
+    const firstMonth = dayjs(`${firstDay.year}-${firstDay.month + 1}-01`).format('MMMM');
+    const lastMonth = dayjs(`${lastDay.year}-${lastDay.month + 1}-01`).format('MMMM');
+
+    const monthLabel = firstMonth === lastMonth ? firstMonth : `${firstMonth} / ${lastMonth}`;
+
 
     return (
         <>
@@ -107,6 +115,7 @@ const WeekCalendar = () => {
                         exit="exit"
                         transition={{ duration: 0.5 }}
                     >
+                        <div className="month-label">{monthLabel}</div>
                         <CalendarComponent
                             days={daysToShow}
                             handleDayClick={handleDayClick}
