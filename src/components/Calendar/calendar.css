@@ -2,11 +2,13 @@
 
 .slide-container {
     width: 100%;
+    background-color: var(--secondary-color);
     position: relative;
     overflow: hidden;
     align-content: center;
     display: flex;                /* добавляем! */
     align-items: stretch;
+    border-radius: 10px;
 }
 
 .calendar-wrapper {
@@ -83,6 +85,7 @@
 
 .month-label {
     text-align: center;
+    margin-top: 10px;
     color: var(--text-color);
     font-size: 14px;
     text-transform: capitalize; /* Чтобы месяц был с заглавной */
