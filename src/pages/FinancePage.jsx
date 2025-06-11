@@ -20,6 +20,12 @@ const FinancePage = () => {
                 ))}
             </div>
             <a className={'footnote'}>*Период времени в течение которого необходимо воспользоваться тренировками</a>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </MainLayout>
     );
 };

@@ -27,14 +27,16 @@
 
 /* Первая картинка */
 .background1 {
-    background-image: url("/public/images/start_men.webp");
+    background-image: url("/public/images/start-m.webp");
     margin: 40px;
+    border-radius: 10px;
 }
 
 /* Вторая картинка */
 .background2 {
-    background-image: url("/public/images/start_women.webp");
+    background-image: url("/public/images/start-w.webp");
     margin: 40px;
+    border-radius: 10px;
 }
 
 /* Теперь медиа-запрос для больших экранов: фон по горизонтали */
