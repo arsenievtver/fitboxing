@@ -113,7 +113,7 @@ const WeekCalendar = () => {
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.2 }}
                     >
                         <div className="month-label">{monthLabel}</div>
                         <CalendarComponent

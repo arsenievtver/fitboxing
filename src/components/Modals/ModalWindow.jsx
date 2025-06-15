@@ -2,44 +2,53 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 import CloseButton from '../IconButtons/CloseButton.jsx';
 import './modal_calendar.css';
-import { fetchAvailableSlots } from '/api/airtableClient.js';
+import useSlots from '../../hooks/useSlots.hook';
+import useApi from '../../hooks/useApi.hook'; // ✅ добавим импорт
+import { postBookingUrl } from '../../helpers/constants'; // ✅ твой URL
 
 const ModalWindow = ({ activeDay, closeModal }) => {
-    const [slots, setSlots] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
-    const [selectedSlot, setSelectedSlot] = React.useState(null); // добавлено
+    const [selectedSlot, setSelectedSlot] = React.useState(null);
+    const api = useApi();
 
-    React.useEffect(() => {
-        if (!activeDay || !dayjs.isDayjs(activeDay)) return;
+    // Формируем диапазон времени
+    const isValidDay = activeDay && dayjs.isDayjs(activeDay);
+    const startTime = isValidDay ? activeDay.startOf('day').toISOString() : null;
+    const endTime = isValidDay ? activeDay.endOf('day').toISOString() : null;
 
-        setLoading(true);
-        setSelectedSlot(null); // сброс при новой дате
-
-        const filterDate = activeDay.format('YYYY-MM-DD');
-
-        fetchAvailableSlots(filterDate)
-            .then(setSlots)
-            .catch(err => {
-                console.error(err);
-                setSlots([]);
-            })
-            .finally(() => setLoading(false));
-    }, [activeDay]);
+    // Подключаем хук для получения слотов
+    const { slots, loading, error } = useSlots(startTime, endTime, !!activeDay);
 
     const toggleSlot = (slot) => {
         setSelectedSlot(selectedSlot?.id === slot.id ? null : slot);
     };
 
-    const handleBooking = (slot) => {
-        console.log("Записан на слот:", slot);
-        alert(`Вы записаны на ${slot.time}`);
-        setSelectedSlot(null);
+    const handleBooking = async (slot) => {
+        try {
+            const response = await api.post(postBookingUrl, {
+                created_at: new Date().toISOString(), // текущее время
+                slot_id: slot.id,
+                source_record: 'через приложение'
+            });
+
+            if (response.status === 201) {
+                alert('✅ Вы успешно записаны!');
+                closeModal(); // 💥 Закрываем модалку
+                setSelectedSlot(null);
+            }
+        } catch (error) {
+            if (error?.response?.status === 400 && error.response.data?.detail?.includes('Already exist')) {
+                alert('⚠️ Вы уже записаны на это время.');
+            } else {
+                console.error('Ошибка при записи:', error);
+                alert('❌ Произошла ошибка. Попробуйте позже.');
+            }
+        }
     };
 
     return (
         <div className="modal-window-bottom">
             <CloseButton onClick={closeModal} />
-            {activeDay && dayjs.isDayjs(activeDay) ? (
+            {isValidDay ? (
                 <p className="modal-date-label">
                     Запись на {activeDay.format('DD.MM.YY')} - {activeDay.format('dddd')}
                 </p>
@@ -50,13 +59,16 @@ const ModalWindow = ({ activeDay, closeModal }) => {
             <div className="modal-slots">
                 {loading ? (
                     <p>Загрузка доступных слотов...</p>
+                ) : error ? (
+                    <p>Ошибка загрузки слотов.</p>
                 ) : slots.length > 0 ? (
                     <ul>
                         {slots.map((slot) => (
                             <li key={slot.id} className="slot-item" onClick={() => toggleSlot(slot)}>
                                 <div className="slot-main">
-                                    <span className="slot-time">{slot.time}</span>
-                                    <span className="slot-free">{slot.freeSlots}</span>
+                                    <span className="slot-time">{dayjs(slot.time).format('HH:mm')}</span>
+                                    <span className="slot-type">{slot.type}</span>
+                                    <span className="slot-free">{slot.free_places}</span>
                                 </div>
                                 {selectedSlot?.id === slot.id && (
                                     <div className="slot-expanded">

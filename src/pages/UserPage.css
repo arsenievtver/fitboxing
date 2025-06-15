@@ -80,3 +80,18 @@
     font-weight: 600;
     color: var(--text-color, #222);
 }
+
+/* Это даст стилям приоритет над инлайновыми */
+.pull-to-refresh {
+    width: 100% !important;
+    display: block !important;
+}
+
+.refresh-view {
+    width: 100% !important;
+    display: block !important;
+}
+
+.custom-button {
+    margin-bottom: 50px;
+}

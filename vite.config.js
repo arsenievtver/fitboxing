@@ -13,7 +13,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'icons/icon-192x192.png', 'icons/icon-512x512.png'],
       manifest: {
-        name: 'Моё PWA-приложение',
+        name: 'Fitboxing',
         short_name: 'PWA App',
         start_url: '/home',
         display: 'standalone',

@@ -1,6 +1,13 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	useMemo
+} from 'react';
 import { createApi } from '../helpers/ApiClient';
 import { useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 
 export const UserContext = createContext(null);
 
@@ -8,9 +15,9 @@ export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 
-	const api = React.useMemo(() => createApi(navigate), [navigate]);
+	const api = useMemo(() => createApi(navigate), [navigate]);
 
-	const fetchUser = async () => {
+	const refreshUser = useCallback(async () => {
 		try {
 			const { data } = await api.get('/api/v1/users/me');
 			setUser(data);
@@ -18,14 +25,14 @@ export const UserProvider = ({ children }) => {
 			console.warn('Не удалось загрузить пользователя', e);
 			setUser(null);
 		}
-	};
+	}, [api]);
 
 	useEffect(() => {
-		fetchUser();
-	}, []);
+		refreshUser();
+	}, [refreshUser]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, refreshUser: fetchUser }}>
+		<UserContext.Provider value={{ user, setUser, refreshUser }}>
 			{children}
 		</UserContext.Provider>
 	);
@@ -33,7 +40,7 @@ export const UserProvider = ({ children }) => {
 
 export const useUser = () => {
 	const context = useContext(UserContext);
-	if (context === undefined) {
+	if (!context) {
 		throw new Error('useUser must be used within a UserProvider');
 	}
 	return context;
