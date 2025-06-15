@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
 			console.warn('Не удалось загрузить пользователя', e);
 			setUser(null);
 		}
-	}, [api]);
+	}, []);
 
 	useEffect(() => {
 		refreshUser();
