@@ -37,17 +37,6 @@
 }
 
 .button_exit {
-    position: fixed;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    padding: 12px 24px;
-    border-radius: 16px;
-    font-size: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border: none;
-    transition: background-color 0.3s ease;
     margin-bottom: 50px;
 }
 
@@ -81,17 +70,8 @@
     color: var(--text-color, #222);
 }
 
-/* Это даст стилям приоритет над инлайновыми */
-.pull-to-refresh {
-    width: 100% !important;
-    display: block !important;
-}
-
-.refresh-view {
-    width: 100% !important;
-    display: block !important;
-}
-
-.custom-button {
-    margin-bottom: 50px;
+.button_refresh {
+    border: 0;
+    margin-left: auto;
+    display: block;
 }

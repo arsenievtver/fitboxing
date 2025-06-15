@@ -8,7 +8,7 @@ import ButtonMy from "../components/Buttons/ButtonMy.jsx";
 import { createApi } from '../helpers/ApiClient';
 import { JWT_STORAGE_KEY } from '../helpers/constants';
 import { FaChevronDown, FaChevronUp, FaTrash } from 'react-icons/fa';
-import PullToRefresh from 'react-pull-to-refresh'; // 👈 добавили
+
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '-';
@@ -75,50 +75,48 @@ const UserPage = () => {
 
     return (
         <MainLayout>
-                <PullToRefresh
-                    onRefresh={refreshUser}
-                    className="pull-to-refresh"
-                >
-                    <div className="user-avatar-block">
-                        <img src="/images/avatar.webp" alt="Аватар" className="avatar-img" />
-                        <div className="username">{user.name} {user.last_name}</div>
-                    </div>
+            <div className="user-avatar-block">
+                <img src="/images/avatar.webp" alt="Аватар" className="avatar-img" />
+                <div className="username">{user.name} {user.last_name}</div>
+            </div>
 
-                    <div className="user_data">
-                        <Section title="Контактная информация">
-                            <UserRow label="Телефон:" value={user.phone || '-'} />
-                            <UserRow label="Email:" value={user.email || '-'} />
-                        </Section>
+            <div className="user_data">
+                <Section title="Контактная информация">
+                    <UserRow label="Телефон:" value={user.phone || '-'} />
+                    <UserRow label="Email:" value={user.email || '-'} />
+                </Section>
 
-                        <Section title="Личные данные">
-                            <UserRow label="Имя:" value={user.name || '-'} />
-                            <UserRow label="Фамилия:" value={user.last_name || '-'} />
-                            <UserRow label="Пол:" value={user.gender || '-'} />
-                            <UserRow label="Дата рождения:" value={formatDate(user.date_of_birth)} />
-                        </Section>
+                <Section title="Личные данные">
+                    <UserRow label="Имя:" value={user.name || '-'} />
+                    <UserRow label="Фамилия:" value={user.last_name || '-'} />
+                    <UserRow label="Пол:" value={user.gender || '-'} />
+                    <UserRow label="Дата рождения:" value={formatDate(user.date_of_birth)} />
+                </Section>
 
-                        <Section title="Статистика">
-                            <UserRow label="Баланс тренировок:" value={user.balance_training ?? 0} />
-                            <UserRow label="Статус:" value={user.status || '-'} />
-                            <UserRow label="Прогресс в баллах:" value={user.score ?? 0} />
-                            <UserRow label="Количество тренировок:" value={user.count_trainings ?? 0} />
-                            <UserRow label="Дата создания:" value={formatDate(user.created_at)} />
-                        </Section>
+                <Section title="Статистика">
+                    <UserRow label="Баланс тренировок:" value={user.balance_training ?? 0} />
+                    <UserRow label="Статус:" value={user.status || '-'} />
+                    <UserRow label="Прогресс в баллах:" value={user.score ?? 0} />
+                    <UserRow label="Количество тренировок:" value={user.count_trainings ?? 0} />
+                    <UserRow label="Дата создания:" value={formatDate(user.created_at)} />
+                </Section>
 
-                        <Section title="Мои записи">
-                            {user.bookings && user.bookings.length > 0 ? (
-                                user.bookings.map((booking) => (
-                                    <BookingRow key={booking.id} booking={booking} />
-                                ))
-                            ) : (
-                                <div className="row"><span className="value">Записей пока нет</span></div>
-                            )}
-                        </Section>
-                        <ButtonMy onClick={handleLogout} className="button_exit">Выйти</ButtonMy>
-                    </div>
-                    <br/><br/><br/><br/>
-                </PullToRefresh>
+                <Section title="Мои записи">
+                    <ButtonMy onClick={refreshUser} className="button_refresh" style={{ marginBottom: '10px' }}>
+                        Обновить
+                    </ButtonMy>
+                    {user.bookings && user.bookings.length > 0 ? (
+                        user.bookings.map((booking) => (
+                            <BookingRow key={booking.id} booking={booking} />
+                        ))
+                    ) : (
+                        <div className="row"><span className="value">Записей пока нет</span></div>
+                    )}
+                </Section>
 
+                <ButtonMy onClick={handleLogout} className="button_exit">Выйти</ButtonMy>
+            </div>
+            <br/><br/><br/><br/>
         </MainLayout>
     );
 };
