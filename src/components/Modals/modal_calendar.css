@@ -99,8 +99,8 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 400px;
-    max-height: 400px;
+    height: 600px;
+    max-height: 600px;
     background-color: var(--secondary-color);
     color: var(--text-color);
     z-index: 1000;
