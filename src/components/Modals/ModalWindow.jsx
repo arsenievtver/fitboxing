@@ -3,12 +3,18 @@ import dayjs from 'dayjs';
 import CloseButton from '../IconButtons/CloseButton.jsx';
 import './modal_calendar.css';
 import useSlots from '../../hooks/useSlots.hook';
-import useApi from '../../hooks/useApi.hook'; // ✅ добавим импорт
-import { postBookingUrl } from '../../helpers/constants'; // ✅ твой URL
+import useApi from '../../hooks/useApi.hook';
+import { postBookingUrl } from '../../helpers/constants';
+
+// ✅ импортируем useUser
+import { useUser } from '../../context/UserContext';
 
 const ModalWindow = ({ activeDay, closeModal }) => {
     const [selectedSlot, setSelectedSlot] = React.useState(null);
     const api = useApi();
+
+    // ✅ получаем refreshUser из контекста
+    const { refreshUser } = useUser();
 
     // Формируем диапазон времени
     const isValidDay = activeDay && dayjs.isDayjs(activeDay);
@@ -25,13 +31,14 @@ const ModalWindow = ({ activeDay, closeModal }) => {
     const handleBooking = async (slot) => {
         try {
             const response = await api.post(postBookingUrl, {
-                created_at: new Date().toISOString(), // текущее время
+                created_at: new Date().toISOString(),
                 slot_id: slot.id,
                 source_record: 'через приложение'
             });
 
             if (response.status === 201) {
                 alert('✅ Вы успешно записаны!');
+                await refreshUser(); // ✅ обновляем данные пользователя
                 closeModal(); // 💥 Закрываем модалку
                 setSelectedSlot(null);
             }

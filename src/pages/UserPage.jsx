@@ -161,9 +161,6 @@ const UserPage = () => {
                 </Section>
 
                 <Section title="Мои записи">
-                    <ButtonMy onClick={refreshUser} className="button_refresh" style={{ marginBottom: '10px' }}>
-                        Обновить
-                    </ButtonMy>
                     {userSlots.length > 0 ? (
                         userSlots.map((slot) => (
                             <SlotRow key={slot.id} slot={slot} onDelete={handleDeleteBooking} />
