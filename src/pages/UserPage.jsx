@@ -1,14 +1,12 @@
-import { logoutUrl, PREFIX } from "../helpers/constants.js";
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MainLayout from '../components/layouts/MainLayout';
-import { useUser } from '../context/UserContext';
-import './UserPage.css';
-import ButtonMy from "../components/Buttons/ButtonMy.jsx";
+import { logoutUrl, PREFIX, JWT_STORAGE_KEY, getSlotsByIdsUrl, deleteBookingUrl } from '../helpers/constants.js'; // добавил deleteBookingUrl
 import { createApi } from '../helpers/ApiClient';
-import { JWT_STORAGE_KEY } from '../helpers/constants';
+import { useUser } from '../context/UserContext';
+import MainLayout from '../components/layouts/MainLayout';
+import ButtonMy from '../components/Buttons/ButtonMy.jsx';
 import { FaChevronDown, FaChevronUp, FaTrash } from 'react-icons/fa';
-
+import './UserPage.css';
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '-';
@@ -17,6 +15,15 @@ const formatDate = (dateStr) => {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+    });
+};
+
+const formatTime = (dateStr) => {
+    if (!dateStr) return '-';
+    const date = new Date(dateStr);
+    return date.toLocaleTimeString('ru-RU', {
+        hour: '2-digit',
+        minute: '2-digit',
     });
 };
 
@@ -40,12 +47,19 @@ const UserRow = ({ label, value }) => (
     </div>
 );
 
-const BookingRow = ({ booking }) => (
+// Добавляем обработчик удаления и отображаем корзину
+const SlotRow = ({ slot, onDelete }) => (
     <div className="row booking-row">
-        <span className="label">Слот ID:</span>
-        <span className="value">
-			{booking.slot_id}
-            <FaTrash style={{ marginLeft: '10px', cursor: 'not-allowed', opacity: 0.5 }} />
+        <span className="value">{formatDate(slot.time)}</span>
+        <span className="value">{formatTime(slot.time)}</span>
+        <span className="value">{(slot.type)}</span>
+        <span className="trash-booking">
+            {/* корзина с курсором pointer */}
+            <FaTrash
+                style={{ marginLeft: '10px', cursor: 'pointer', color: 'var(--primary-color-2)' }}
+                onClick={() => onDelete(slot.bookingId)}
+                title="Удалить запись"
+            />
 		</span>
     </div>
 );
@@ -54,9 +68,35 @@ const UserPage = () => {
     const { user, setUser, refreshUser } = useUser();
     const navigate = useNavigate();
     const api = createApi(navigate);
+    const [userSlots, setUserSlots] = useState([]);
 
     useEffect(() => {
-        if (!user) navigate('/');
+        if (!user) {
+            navigate('/');
+            return;
+        }
+
+        const fetchSlots = async () => {
+            if (user.bookings && user.bookings.length > 0) {
+                const ids = user.bookings.map(b => b.slot_id);
+                try {
+                    const response = await api.get(getSlotsByIdsUrl(ids));
+                    // Тут сопоставим слоты с bookingId
+                    const slotsWithBookingId = response.data.map(slot => {
+                        // Найдём booking по slot.id
+                        const booking = user.bookings.find(b => b.slot_id === slot.id);
+                        return { ...slot, bookingId: booking ? booking.id : null };
+                    });
+                    setUserSlots(slotsWithBookingId);
+                } catch (error) {
+                    console.error('Ошибка при загрузке слотов:', error);
+                }
+            } else {
+                setUserSlots([]);
+            }
+        };
+
+        fetchSlots();
     }, [user, navigate]);
 
     const handleLogout = async () => {
@@ -68,6 +108,25 @@ const UserPage = () => {
             localStorage.removeItem(JWT_STORAGE_KEY);
             setUser(null);
             navigate('/');
+        }
+    };
+
+    // Добавляем удаление с подтверждением
+    const handleDeleteBooking = async (bookingId) => {
+        if (!bookingId) {
+            alert('Ошибка: не найден ID записи для удаления');
+            return;
+        }
+
+        const confirmed = window.confirm('Вы уверены, что хотите удалить запись?');
+        if (!confirmed) return;
+
+        try {
+            await api.delete(PREFIX + deleteBookingUrl(bookingId));
+            await refreshUser();
+        } catch (error) {
+            console.error('Ошибка при удалении записи:', error);
+            alert('Не удалось удалить запись. Попробуйте позже.');
         }
     };
 
@@ -105,9 +164,9 @@ const UserPage = () => {
                     <ButtonMy onClick={refreshUser} className="button_refresh" style={{ marginBottom: '10px' }}>
                         Обновить
                     </ButtonMy>
-                    {user.bookings && user.bookings.length > 0 ? (
-                        user.bookings.map((booking) => (
-                            <BookingRow key={booking.id} booking={booking} />
+                    {userSlots.length > 0 ? (
+                        userSlots.map((slot) => (
+                            <SlotRow key={slot.id} slot={slot} onDelete={handleDeleteBooking} />
                         ))
                     ) : (
                         <div className="row"><span className="value">Записей пока нет</span></div>
