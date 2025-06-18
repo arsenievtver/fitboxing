@@ -10,3 +10,4 @@ export const getSlotsByIdsUrl = (ids) =>
 	`/api/v1/slots/?id__in=${ids.join(',')}`
 export const postBookingUrl = '/api/v1/bookings/';
 export const deleteBookingUrl = (id) => `/api/v1/bookings/${id}`;
+export const postWeightMeUrl = '/api/v1/records/';

@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import MainLayout from '../components/layouts/MainLayout';
 import DonutDashboard from '../components/Dashboard/DonutDashboard.jsx';
-import '../components/IconButtons/DonutDashboard.css'; // подключаем стили
+import '../components/Dashboard/DonutDashboard.css';
 import WeightChart from '../components/Charts/WeightChart.jsx';
-
-const mockData = [
-    { date: '01.01', weight: 78.2 },
-    { date: '05.02', weight: 77.9 },
-    { date: '10.03', weight: 77.4 },
-    { date: '15.04', weight: 76.8 },
-    { date: '20.05', weight: 76.5 },
-];
+import { useUser } from '../context/UserContext';
+import { format, parseISO } from 'date-fns';
 
 const EnergyPage = () => {
+    const { user } = useUser();
+
+    const weightData = useMemo(() => {
+        if (!user?.records || user.records.length === 0) return [];
+
+        // Берём последние 10 записей
+        const lastRecords = [...user.records]
+            .sort((a, b) => new Date(a.date) - new Date(b.date)) // сортируем по дате
+            .slice(-10); // берём последние 10
+
+        return lastRecords.map(record => ({
+            date: format(parseISO(record.date), 'dd.MM'), // преобразуем дату
+            weight: record.weight
+        }));
+    }, [user]);
+
     return (
         <MainLayout>
             <div className="energy-container">
@@ -20,17 +30,16 @@ const EnergyPage = () => {
                     Твой прогресс в тренировках!
                 </h3>
                 <DonutDashboard />
-                <WeightChart data={mockData} />
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                <WeightChart data={weightData} />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
             </div>
         </MainLayout>
     );
 };
 
 export default EnergyPage;
-
