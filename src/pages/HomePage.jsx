@@ -29,10 +29,17 @@ const HomePage = () => {
         <MainLayout>
             <h2>Запишись на тренировку!</h2>
             <WeekCalendar />
+            <p className="energybar-title">Твой прогресс</p>
             <EnergyBar start_bar={0} end_bar={800} count_bar={score} />
             <VideoPlayer vimeoId="1088731673" />
             <h3>Твоя предыдущая тренировка</h3>
-            <DonutDashboard />
+            <DonutDashboard
+                data={[
+                    { value: 75, label: 'Сила', color: 'var(--primary-color-2)'},
+                    { value: 68, label: 'Энергия', size: 100 }, // опционально меняешь размер
+                    { value: 88, label: 'Ритм', color: 'var(--primary-color-3)' }
+                ]}
+            />
             <br />
             <br />
             <br />

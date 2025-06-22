@@ -3,10 +3,8 @@ import './DonutDashboard.css';
 
 const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primary-color)' }) => {
     const [animatedValue, setAnimatedValue] = useState(0);
-
     const radius = (size - 10) / 2;
     const circumference = 2 * Math.PI * radius;
-
     const offset = circumference * (1 - animatedValue / 100);
 
     useEffect(() => {
@@ -61,16 +59,20 @@ const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primar
     );
 };
 
-const DonutDashboard = () => {
+const DonutDashboard = ({ data = [] }) => {
     return (
         <div className="donut-dashboard">
-            <Donut value={75} label="Сила" size={70} color="var(--primary-color-2)"/>
-            <Donut value={68} label="Энергия" size={100} color="var(--primary-color)"/>
-            <Donut value={88} label="Ритм" size={70} color="var(--primary-color-3)"/>
+            {data.map((item, index) => (
+                <Donut
+                    key={index}
+                    value={item.value}
+                    label={item.label}
+                    size={item.size ?? 70}
+                    color={item.color ?? 'var(--primary-color)'}
+                />
+            ))}
         </div>
     );
 };
 
 export default DonutDashboard;
-
-

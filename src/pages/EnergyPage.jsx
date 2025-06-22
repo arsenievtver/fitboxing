@@ -5,6 +5,8 @@ import '../components/Dashboard/DonutDashboard.css';
 import WeightChart from '../components/Charts/WeightChart.jsx';
 import { useUser } from '../context/UserContext';
 import { format, parseISO } from 'date-fns';
+import EnergyBar from "../components/Charts/EnergyBar.jsx";
+import './EnergyPage.css'
 
 const EnergyPage = () => {
     const { user } = useUser();
@@ -12,31 +14,43 @@ const EnergyPage = () => {
     const weightData = useMemo(() => {
         if (!user?.records || user.records.length === 0) return [];
 
-        // Берём последние 10 записей
         const lastRecords = [...user.records]
-            .sort((a, b) => new Date(a.date) - new Date(b.date)) // сортируем по дате
-            .slice(-10); // берём последние 10
+            .sort((a, b) => new Date(a.date) - new Date(b.date))
+            .slice(-10);
 
         return lastRecords.map(record => ({
-            date: format(parseISO(record.date), 'dd.MM'), // преобразуем дату
+            date: format(parseISO(record.date), 'dd.MM'),
             weight: record.weight
         }));
     }, [user]);
 
+    const score = user?.score || 0;
+    const count_training = user?.count_trainings || 0;
+
     return (
         <MainLayout>
             <div className="energy-container">
-                <h3 style={{ textAlign: 'center', marginLeft: 0, paddingLeft: 0 }}>
-                    Твой прогресс в тренировках!
-                </h3>
-                <DonutDashboard />
-                <WeightChart data={weightData} />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
+                {!user ? (
+                    <p>Загрузка данных пользователя...</p>
+                ) : (
+                    <div style={{ gap: '10px', display: 'grid' }}>
+                        <h3>Проведено тренировок: {count_training}</h3>
+                            Баллов:
+                        <EnergyBar start_bar={0} end_bar={800} count_bar={score} />
+                        <div className='donat-bar'>
+                            <h3>Твоя последняя тренировка:</h3>
+                            <DonutDashboard
+                                data={[
+                                    { value: 75, label: 'Сила', color: 'var(--primary-color-2)'},
+                                    { value: 68, label: 'Энергия', size: 100 }, // опционально меняешь размер
+                                    { value: 88, label: 'Ритм', color: 'var(--primary-color-3)' }
+                                ]}
+                            />
+                        </div>
+                        <WeightChart data={weightData} />
+                        <div style={{ marginBottom: '60px' }}></div>
+                    </div>
+                )}
             </div>
         </MainLayout>
     );
