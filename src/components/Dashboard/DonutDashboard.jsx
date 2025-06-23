@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './DonutDashboard.css';
 
-const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primary-color)' }) => {
+const Donut = ({
+                   value,
+                   label,
+                   size = 100,
+                   duration = 500,
+                   color = 'var(--primary-color)',
+                   maxValue = 100
+               }) => {
     const [animatedValue, setAnimatedValue] = useState(0);
     const radius = (size - 10) / 2;
     const circumference = 2 * Math.PI * radius;
-    const offset = circumference * (1 - animatedValue / 100);
+    const percent = (animatedValue / maxValue) * 100;
+    const offset = circumference * (1 - percent / 100);
 
     useEffect(() => {
         let start = null;
@@ -25,12 +33,7 @@ const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primar
 
     return (
         <div className="donut-wrapper" style={{ width: size, height: size + 30 }}>
-            <svg
-                width={size}
-                height={size}
-                viewBox={`0 0 ${size} ${size}`}
-                className="donut-svg"
-            >
+            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="donut-svg">
                 <circle
                     className="donut-bg"
                     cx={size / 2}
@@ -53,26 +56,50 @@ const Donut = ({ value, label, size = 100, duration = 500, color = 'var(--primar
                     strokeLinecap="round"
                 />
             </svg>
-            <div className="donut-center">{Math.round(animatedValue)}%</div>
+            <div className="donut-center">{Math.round(animatedValue)}</div>
             <div className="donut-label">{label}</div>
         </div>
     );
 };
 
-const DonutDashboard = ({ data = [] }) => {
+const DonutDashboard = ({ values = {} }) => {
+    const rings = [
+        {
+            key: 'strength',
+            label: 'Сила',
+            color: 'var(--primary-color-2)',
+            size: 70,
+            maxValue: 1200
+        },
+        {
+            key: 'energy',
+            label: 'Энергия',
+            color: 'var(--primary-color)',
+            size: 100
+        },
+        {
+            key: 'tempo',
+            label: 'Ритм',
+            color: 'var(--primary-color-3)',
+            size: 70
+        }
+    ];
+
     return (
         <div className="donut-dashboard">
-            {data.map((item, index) => (
+            {rings.map((ring, index) => (
                 <Donut
                     key={index}
-                    value={item.value}
-                    label={item.label}
-                    size={item.size ?? 70}
-                    color={item.color ?? 'var(--primary-color)'}
+                    value={values[ring.key] ?? 0}
+                    label={ring.label}
+                    size={ring.size}
+                    color={ring.color}
+                    maxValue={ring.maxValue ?? 100}
                 />
             ))}
         </div>
     );
 };
+
 
 export default DonutDashboard;

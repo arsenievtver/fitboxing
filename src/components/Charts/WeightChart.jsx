@@ -10,7 +10,6 @@ import {
 } from 'recharts';
 import ButtonMy from '../Buttons/ButtonMy';
 import ModalBase from '../Modals/ModalBase.jsx';
-import DateInput from '../Forms/DateInput.jsx';
 import InputBase from '../Forms/InputBase.jsx';
 import useApi from '../../hooks/useApi.hook';
 import { postWeightMeUrl } from '../../helpers/constants';
@@ -34,7 +33,6 @@ const WeightChart = ({ data = [] }) => {
 
     const [showModal, setShowModal] = useState(false);
     const [weightInput, setWeightInput] = useState('');
-    const [dateInput, setDateInput] = useState(new Date());
 
     const { yMin, yMax } = useMemo(() => {
         if (data.length === 0) return { yMin: 0, yMax: 100 };
@@ -52,7 +50,6 @@ const WeightChart = ({ data = [] }) => {
     const handleCloseModal = () => setShowModal(false);
 
     const handleSubmit = async () => {
-        // Заменяем запятую на точку
         const normalizedWeight = parseFloat(weightInput.replace(',', '.'));
 
         if (isNaN(normalizedWeight)) {
@@ -61,7 +58,7 @@ const WeightChart = ({ data = [] }) => {
         }
 
         const payload = {
-            date: formatISO(dateInput, { representation: 'date' }), // YYYY-MM-DD
+            date: formatISO(new Date(), { representation: 'date' }), // всегда текущая дата YYYY-MM-DD
             weight: normalizedWeight
         };
 
@@ -69,7 +66,7 @@ const WeightChart = ({ data = [] }) => {
             await api.post(postWeightMeUrl, payload);
             alert('Запись добавлена');
             handleCloseModal();
-            refreshUser(); // обновим юзера после добавления
+            refreshUser();
         } catch (e) {
             console.error('Ошибка при добавлении веса', e);
             alert('Не удалось добавить запись');
@@ -80,7 +77,6 @@ const WeightChart = ({ data = [] }) => {
         <div style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                 <h3 style={{ textAlign: 'left', margin: 0 }}>Динамика веса</h3>
-                <ButtonMy onClick={handleOpenModal}>Добавить измерение</ButtonMy>
             </div>
 
             <ResponsiveContainer height={320}>
@@ -104,13 +100,16 @@ const WeightChart = ({ data = [] }) => {
                     />
                 </LineChart>
             </ResponsiveContainer>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+                <ButtonMy onClick={handleOpenModal}>Добавить измерение</ButtonMy>
+            </div>
 
             {showModal && (
                 <ModalBase onClose={handleCloseModal}>
                     <div>
                         <h3 style={{ marginTop: 0 }}>Добавить измерение</h3>
                         <div className="modal-content">
-                            <DateInput value={dateInput} onChange={setDateInput} />
+                            {/* DateInput убран */}
                             <InputBase
                                 placeholder="Введите вес"
                                 value={weightInput}
