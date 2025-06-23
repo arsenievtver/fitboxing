@@ -1,6 +1,6 @@
 {
   "name": "PWA-приложение FITBOXING CLUB в Твери",
-  "short_name": "Fitboxing App",
+  "short_name": "Fitboxing",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#21242b",
