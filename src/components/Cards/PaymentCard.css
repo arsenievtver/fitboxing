@@ -1,5 +1,5 @@
 .payment-card {
-    background: linear-gradient(145deg, rgba(30,30,30,1), rgba(40,40,40,0.95));
+    background: var(--secondary-color);
     color: var(--text-color);
     padding: 16px;
     border-radius: 16px;

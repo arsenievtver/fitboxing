@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logoutUrl, PREFIX, JWT_STORAGE_KEY, getSlotsByIdsUrl, deleteBookingUrl } from '../helpers/constants.js'; // добавил deleteBookingUrl
+import { logoutUrl, PREFIX, JWT_STORAGE_KEY, deleteBookingUrl } from '../helpers/constants.js'; // добавил deleteBookingUrl
 import { createApi } from '../helpers/ApiClient';
 import { useUser } from '../context/UserContext';
 import MainLayout from '../components/layouts/MainLayout';
@@ -27,11 +27,20 @@ const formatTime = (dateStr) => {
     });
 };
 
-const Section = ({ title, children }) => {
+const Section = ({ title, children, onExpand }) => {
     const [expanded, setExpanded] = useState(false);
+
+    const toggleExpanded = () => {
+        const next = !expanded;
+        setExpanded(next);
+        if (next && typeof onExpand === 'function') {
+            onExpand(); // вызываем обновление при раскрытии
+        }
+    };
+
     return (
         <div className="section">
-            <div className="section-header" onClick={() => setExpanded(!expanded)}>
+            <div className="section-header" onClick={toggleExpanded}>
                 <h3>{title}</h3>
                 {expanded ? <FaChevronUp /> : <FaChevronDown />}
             </div>
@@ -68,36 +77,7 @@ const UserPage = () => {
     const { user, setUser, refreshUser } = useUser();
     const navigate = useNavigate();
     const api = createApi(navigate);
-    const [userSlots, setUserSlots] = useState([]);
-
-    useEffect(() => {
-        if (!user) {
-            navigate('/');
-            return;
-        }
-
-        const fetchSlots = async () => {
-            if (user.bookings && user.bookings.length > 0) {
-                const ids = user.bookings.map(b => b.slot_id);
-                try {
-                    const response = await api.get(getSlotsByIdsUrl(ids));
-                    // Тут сопоставим слоты с bookingId
-                    const slotsWithBookingId = response.data.map(slot => {
-                        // Найдём booking по slot.id
-                        const booking = user.bookings.find(b => b.slot_id === slot.id);
-                        return { ...slot, bookingId: booking ? booking.id : null };
-                    });
-                    setUserSlots(slotsWithBookingId);
-                } catch (error) {
-                    console.error('Ошибка при загрузке слотов:', error);
-                }
-            } else {
-                setUserSlots([]);
-            }
-        };
-
-        fetchSlots();
-    }, [user, navigate]);
+    const [bookingRefreshTime, setBookingRefreshTime] = useState(Date.now());
 
     const handleLogout = async () => {
         try {
@@ -108,6 +88,15 @@ const UserPage = () => {
             localStorage.removeItem(JWT_STORAGE_KEY);
             setUser(null);
             navigate('/');
+        }
+    };
+
+    const handleExpandBookings = async () => {
+        try {
+            await refreshUser();
+            setBookingRefreshTime(Date.now()); // триггерим обновление UI
+        } catch (error) {
+            console.error('Не удалось обновить записи пользователя:', error);
         }
     };
 
@@ -160,12 +149,24 @@ const UserPage = () => {
                     <UserRow label="Дата создания:" value={formatDate(user.created_at)} />
                 </Section>
 
-                <Section title="Мои записи">
-                    {userSlots.length > 0 ? (
-                        userSlots.map((slot) => (
-                            <SlotRow key={slot.id} slot={slot} onDelete={handleDeleteBooking} />
+                <Section title="Мои записи" onExpand={handleExpandBookings}>
+                    {user.bookings
+                        .filter(booking => {
+                            const today = new Date();
+                            const slotTime = new Date(booking.slot?.time);
+                            return booking.is_done === false && slotTime >= today;
+                        })
+                        .sort((a, b) => new Date(a.slot.time) - new Date(b.slot.time))
+                        .map(booking => (
+                            <SlotRow
+                                key={`${booking.id}-${bookingRefreshTime}`} // ключ включает таймстамп, чтобы обновлялся
+                                slot={{ ...booking.slot, bookingId: booking.id }}
+                                onDelete={handleDeleteBooking}
+                            />
                         ))
-                    ) : (
+                    }
+
+                    {user.bookings.filter(booking => booking.is_done === false && new Date(booking.slot?.time) >= new Date()).length === 0 && (
                         <div className="row"><span className="value">Записей пока нет</span></div>
                     )}
                 </Section>
