@@ -51,8 +51,11 @@ const EnergyPage = () => {
                 ) : (
                     <div style={{ gap: '10px', display: 'grid' }}>
                         <h3>Проведено тренировок: {count_training}</h3>
-                        Баллов:
-                        <EnergyBar start_bar={0} end_bar={800} count_bar={score} />
+                        <div className='status-bar'>
+                            <p>Баллов: {user.energy ?? 0}</p>
+                            <p>Статус: {user?.statusName}</p>
+                        </div>
+                        <EnergyBar start_bar={0} end_bar={user?.maxPoints} count_bar={user.energy ?? 0} />
                         <div className='donat-bar'>
                             <h3>Твоя последняя тренировка:</h3>
                             <DonutDashboard values={donutValues} />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './energybar.css';
 
+
 const EnergyBar = ({ start_bar = 0, end_bar = 800, count_bar = 500 }) => {
     const [animatedWidth, setAnimatedWidth] = useState('100%');
 
