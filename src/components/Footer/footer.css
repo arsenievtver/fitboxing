@@ -3,16 +3,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 65px;
+    min-height: 65px;
+    padding: 10px 15px calc(env(safe-area-inset-bottom, 0px) + 10px);
+    box-sizing: border-box;
     background-color: var(--secondary-color);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    padding: 15px 15px calc(env(safe-area-inset-bottom, 0px) + 10px); /* <-- вот тут */
     margin: 0 10px;
     z-index: 1000;
     border-radius: 10px 10px 0 0;
-    box-sizing: border-box;
 }
 
 .nav-item {
@@ -68,4 +68,8 @@
     .navbar-container {
         padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
     }
+}
+
+.min-safe-area {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px));
 }
