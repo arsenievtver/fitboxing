@@ -7,6 +7,8 @@ import { useUser } from '../context/UserContext';
 import { format, parseISO } from 'date-fns';
 import EnergyBar from "../components/Charts/EnergyBar.jsx";
 import './EnergyPage.css';
+import {ru} from "date-fns/locale";
+import PreviousTrainings from '../components/Cards/PreviousTrainings.jsx';
 
 const EnergyPage = () => {
     const { user } = useUser();
@@ -37,6 +39,12 @@ const EnergyPage = () => {
         return sorted[0] || null;
     }, [user]);
 
+    const formattedDate = lastTraining?.slot?.time
+        ? format(parseISO(lastTraining.slot.time), 'dd MMMM', { locale: ru })
+        : null;
+
+    if (!user) return null;
+
     const donutValues = {
         strength: lastTraining?.power ?? 0,
         energy: lastTraining?.energy ?? 0,
@@ -50,15 +58,28 @@ const EnergyPage = () => {
                     <p>Загрузка данных пользователя...</p>
                 ) : (
                     <div style={{ gap: '10px', display: 'grid' }}>
-                        <h3>Проведено тренировок: {count_training}</h3>
                         <div className='status-bar'>
-                            <p>Баллов: {user.energy ?? 0}</p>
-                            <p>Статус: {user?.statusName}</p>
+                            <div className='card-info'>
+                                <p>Проведено</p>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '22px' }}>{count_training}</span>
+                                <p>тренировок</p>
+                            </div>
+                            <div className='card-info'>
+                                <p>Получено</p>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '22px' }}>{user.energy ?? 0}</span>
+                                <p>баллов</p>
+                            </div>
+                            <div className='card-info'>
+                                <p>Достигнут</p>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '22px' }}>{user?.statusName}</span>
+                                <p>уровень</p>
+                            </div>
                         </div>
                         <EnergyBar start_bar={0} end_bar={user?.maxPoints} count_bar={user.energy ?? 0} />
                         <div className='donat-bar'>
-                            <h3>Твоя последняя тренировка:</h3>
+                            <h3>Тренировка за {formattedDate && ` ${formattedDate}`}</h3>
                             <DonutDashboard values={donutValues} />
+                            <PreviousTrainings bookings={user.bookings} />
                         </div>
                         <WeightChart data={weightData} />
                         <div style={{ marginBottom: '60px' }}></div>

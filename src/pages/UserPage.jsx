@@ -143,7 +143,7 @@ const UserPage = () => {
 
                 <Section title="Статистика">
                     <UserRow label="Баланс тренировок:" value={user.score ?? 0} />
-                    <UserRow label="Статус:" value={user?.statusName} />
+                    <UserRow label="Уровень:" value={user?.statusName} />
                     <UserRow label="Прогресс в баллах:" value={user.energy ?? 0} />
                     <UserRow label="Проведено тренировок:" value={user.count_trainings ?? 0} />
                     <UserRow label="Дата создания:" value={formatDate(user.created_at)} />

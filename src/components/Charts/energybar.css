@@ -1,3 +1,13 @@
+.info-bar{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
 .energybar-wrapper {
     width: 100%;
     text-align: center;

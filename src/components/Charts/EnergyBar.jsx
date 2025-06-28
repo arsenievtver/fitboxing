@@ -21,15 +21,20 @@ const EnergyBar = ({ start_bar = 0, end_bar = 800, count_bar = 500 }) => {
 
     return (
         <div className="energybar-wrapper">
-            <div className="energybar-bar">
-                <div
-                    className="energybar-fill"
-                    style={{ width: animatedWidth }}
-                ></div>
-            </div>
-            <div className="energybar-scale">
-                <span>{start_bar}</span>
-                <span>{end_bar}</span>
+            <div className='info-bar'>
+                <div>
+                    <p>
+                        Баллов: {count_bar}
+                        <span style={{ color: 'var(--primary-color)' }}>/</span>
+                        {end_bar}
+                    </p>
+                </div>
+                <div className="energybar-bar">
+                    <div
+                        className="energybar-fill"
+                        style={{ width: animatedWidth }}
+                    ></div>
+                </div>
             </div>
         </div>
     );

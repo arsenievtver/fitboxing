@@ -32,7 +32,7 @@ const Donut = ({
     }, [value, duration]);
 
     return (
-        <div className="donut-wrapper" style={{ width: size, height: size + 30 }}>
+        <div className="donut-wrapper" style={{ width: size, height: size + 20 }}>
             <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="donut-svg">
                 <circle
                     className="donut-bg"
@@ -41,7 +41,7 @@ const Donut = ({
                     r={radius}
                     fill="none"
                     stroke="rgba(255, 255, 255, 0.2)"
-                    strokeWidth="10"
+                    strokeWidth="7"
                 />
                 <circle
                     className="donut-ring"
@@ -50,7 +50,7 @@ const Donut = ({
                     r={radius}
                     fill="none"
                     stroke={color}
-                    strokeWidth="10"
+                    strokeWidth="7"
                     strokeDasharray={circumference}
                     strokeDashoffset={offset}
                     strokeLinecap="round"
@@ -68,7 +68,7 @@ const DonutDashboard = ({ values = {} }) => {
             key: 'strength',
             label: 'Сила',
             color: 'var(--primary-color-2)',
-            size: 70,
+            size: 80,
             maxValue: 1200
         },
         {
@@ -81,7 +81,7 @@ const DonutDashboard = ({ values = {} }) => {
             key: 'tempo',
             label: 'Ритм',
             color: 'var(--primary-color-3)',
-            size: 70
+            size: 80
         }
     ];
 

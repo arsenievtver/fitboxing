@@ -4,7 +4,6 @@ import './videoplayer.css';
 const VideoPlayer = () => {
     return (
         <div className="video-wrapper">
-            <h3 className="video-title">Фитбоксинг</h3>
             <video
                 className="responsive-video"
                 autoPlay

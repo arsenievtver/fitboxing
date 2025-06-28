@@ -46,15 +46,10 @@ const HomePage = () => {
     return (
         <MainLayout>
             <h3>Запишись на тренировку!</h3>
-            <p>выбери дату</p>
             <WeekCalendar />
-            <p className="energybar-title">Твой прогресс: {user.energy ?? 0}</p>
             <EnergyBar start_bar={0} end_bar={user?.maxPoints} count_bar={user.energy ?? 0} />
             <VideoPlayer vimeoId="1088731673" />
-            <p>
-                Твоя предыдущая тренировка
-                {formattedDate && ` ${formattedDate}`}
-            </p>
+            <h3>Тренировка за {formattedDate && ` ${formattedDate}`}</h3>
             <DonutDashboard values={donutValues} />
             <br />
             <br />
