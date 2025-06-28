@@ -66,7 +66,7 @@ const EnergyPage = () => {
                             </div>
                             <div className='card-info'>
                                 <p>Получено</p>
-                                <span style={{ color: 'var(--primary-color)', fontSize: '20px' }}>{user.energy ?? 0}</span>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '20px' }}>{Math.round(user.energy) ?? 0}</span>
                                 <p>баллов</p>
                             </div>
                             <div className='card-info'>
