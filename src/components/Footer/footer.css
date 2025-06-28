@@ -3,17 +3,27 @@
     bottom: 0;
     left: 0;
     right: 0;
-    min-height: 65px;
-    padding: 10px 15px calc(env(safe-area-inset-bottom, 0px) + 10px);
-    box-sizing: border-box;
-    background-color: var(--secondary-color);
     display: flex;
     justify-content: space-around;
-    align-items: flex-start;
+    background-color: var(--secondary-color);
     margin: 0 10px;
     z-index: 1000;
     border-radius: 10px 10px 0 0;
+    box-sizing: border-box;
+
+    /* базовая высота без safe area */
+    height: 65px;
+    padding: 10px 15px;
 }
+
+/* Только если браузер поддерживает safe-area-inset (iPhone X и выше) */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .navbar-container {
+        height: calc(65px + env(safe-area-inset-bottom));
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    }
+}
+
 
 .nav-item {
     flex: 1;
@@ -64,11 +74,6 @@
     transform: scale(1.1);
 }
 
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-    .navbar-container {
-        padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
-    }
-}
 
 .min-safe-area {
     padding-bottom: calc(env(safe-area-inset-bottom, 0px));

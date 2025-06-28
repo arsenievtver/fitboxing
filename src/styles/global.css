@@ -65,7 +65,6 @@ html, body {
     justify-content: flex-start; /* Прижимаем вверх */
     gap: 10px; /* Расстояние между детьми */
     margin-top: 50px;
-    padding: 0 10px;
 }
 
 
