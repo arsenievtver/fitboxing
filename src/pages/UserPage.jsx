@@ -125,7 +125,7 @@ const UserPage = () => {
         <MainLayout>
             <div className={`user-avatar-block ${user.gender === 'жен' ? 'female' : ''}`}>
                 <img
-                    src={user.gender === 'жен' ? "/images/avatar-f-y.webp" : "/images/avatar-m-r.webp"}
+                    src={user.gender === 'жен' ? "/images/avatar-f-y.webp" : "/images/avatar.webp"}
                     alt="Аватар"
                     className="avatar-img"
                 />
