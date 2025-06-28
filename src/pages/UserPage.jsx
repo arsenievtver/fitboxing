@@ -123,8 +123,12 @@ const UserPage = () => {
 
     return (
         <MainLayout>
-            <div className="user-avatar-block">
-                <img src="/images/avatar.webp" alt="Аватар" className="avatar-img" />
+            <div className={`user-avatar-block ${user.gender === 'жен' ? 'female' : ''}`}>
+                <img
+                    src={user.gender === 'жен' ? "/images/avatar-f-y.webp" : "/images/avatar-m-r.webp"}
+                    alt="Аватар"
+                    className="avatar-img"
+                />
                 <div className="username">{user.name} {user.last_name}</div>
             </div>
 
