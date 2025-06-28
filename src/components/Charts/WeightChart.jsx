@@ -100,7 +100,7 @@ const WeightChart = ({ data = [] }) => {
                     />
                 </LineChart>
             </ResponsiveContainer>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10, marginRight: 10 }}>
                 <ButtonMy onClick={handleOpenModal}>Добавить измерение</ButtonMy>
             </div>
 

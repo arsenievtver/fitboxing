@@ -57,21 +57,21 @@ const EnergyPage = () => {
                 {!user ? (
                     <p>Загрузка данных пользователя...</p>
                 ) : (
-                    <div style={{ gap: '10px', display: 'grid' }}>
+                    <div className='container-energy-cards'>
                         <div className='status-bar'>
                             <div className='card-info'>
                                 <p>Проведено</p>
-                                <span style={{ color: 'var(--primary-color)', fontSize: '20px' }}>{count_training}</span>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{count_training}</span>
                                 <p>тренировок</p>
                             </div>
                             <div className='card-info'>
                                 <p>Получено</p>
-                                <span style={{ color: 'var(--primary-color)', fontSize: '20px' }}>{Math.round(user.energy) ?? 0}</span>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{Math.round(user.energy) ?? 0}</span>
                                 <p>баллов</p>
                             </div>
                             <div className='card-info'>
                                 <p>Достигнут</p>
-                                <span style={{ color: 'var(--primary-color)', fontSize: '20px' }}>{user?.statusName}</span>
+                                <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{user?.statusName}</span>
                                 <p>уровень</p>
                             </div>
                         </div>

@@ -3,16 +3,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 65px;
     background-color: var(--secondary-color);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    padding: 15px 15px; /* Отступы слева и справа, чтобы не уезжало */
+    padding: 15px 15px calc(env(safe-area-inset-bottom, 0px) + 10px); /* <-- вот тут */
     margin: 0 10px;
     z-index: 1000;
     border-radius: 10px 10px 0 0;
-    box-sizing: border-box; /* чтобы padding учитывался в ширине */
+    box-sizing: border-box;
 }
 
 .nav-item {
@@ -62,4 +62,10 @@
 
 .nav-item.active {
     transform: scale(1.1);
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .navbar-container {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+    }
 }

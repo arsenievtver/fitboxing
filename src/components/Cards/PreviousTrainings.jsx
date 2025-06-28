@@ -5,9 +5,9 @@ import '../../pages/UserPage.css'; // если нужные стили уже т
 const TrainingRow = ({ power, energy, tempo, date }) => (
 	<div className="row booking-row">
 		<span className="value">{date}</span>
-		<span className="value">Сила: {power}</span>
-		<span className="value">Энергия: {energy}</span>
-		<span className="value">Ритм: {tempo}</span>
+		<span className="value"><span style={{ color: 'var(--primary-color-2)' }}>{power}</span></span>
+		<span className="value"><span style={{ color: 'var(--primary-color)' }}>{Math.round(energy)}</span></span>
+		<span className="value"><span style={{ color: 'var(--primary-color-3)' }}>{Math.round(tempo)}</span></span>
 	</div>
 );
 
