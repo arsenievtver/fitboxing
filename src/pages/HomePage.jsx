@@ -8,6 +8,7 @@ import DonutDashboard from "../components/Dashboard/DonutDashboard.jsx";
 import { useUser } from '../context/UserContext';
 import { format, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
+import './HomePage.css'
 
 const HomePage = () => {
     const { user } = useUser();
