@@ -10,6 +10,7 @@
     z-index: 1000;
     border-radius: 10px 10px 0 0;
     box-sizing: border-box;
+    align-items: flex-start;
 
     /* базовая высота без safe area */
     height: 65px;
