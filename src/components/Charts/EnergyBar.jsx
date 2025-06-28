@@ -24,7 +24,7 @@ const EnergyBar = ({ start_bar = 0, end_bar = 800, count_bar = 500 }) => {
             <div className='info-bar'>
                 <div>
                     <p>
-                        Баллов: {count_bar}
+                        Баллов: {Math.round(count_bar)}
                         <span style={{ color: 'var(--primary-color)' }}>/</span>
                         {end_bar}
                     </p>
