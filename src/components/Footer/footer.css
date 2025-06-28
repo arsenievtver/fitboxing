@@ -13,7 +13,7 @@
     align-items: flex-start;
 
     /* базовая высота без safe area */
-    height: 65px;
+    height: 60px;
     padding: 10px 15px;
 }
 
