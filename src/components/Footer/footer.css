@@ -20,7 +20,7 @@
 /* Только если браузер поддерживает safe-area-inset (iPhone X и выше) */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .navbar-container {
-        height: calc(65px + env(safe-area-inset-bottom));
+        height: calc(55px + env(safe-area-inset-bottom));
     }
 }
 
