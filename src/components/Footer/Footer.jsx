@@ -42,7 +42,7 @@ const Footer = () => {
 
     const handleCloseModal = () => setShowModal(false);
     const handleGoToTelegram = () => {
-        window.open('https://t.me/s/ias_control', '_blank');
+        window.open('https://t.me/FitboxingClub_bot', '_blank');
         setShowModal(false);
     };
 
