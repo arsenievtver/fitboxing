@@ -23,7 +23,8 @@ const STATUS_MAP = {
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-	const [hasTriedLoadOnce, setHasTriedLoadOnce] = useState(false); // ✅
+	const [hasTriedLoadOnce, setHasTriedLoadOnce] = useState(false);
+	const [authError, setAuthError] = useState(false); // ⛔️ ключевой флаг
 
 	const navigate = useNavigate();
 	const api = useMemo(() => createApi(navigate), [navigate]);
@@ -43,12 +44,14 @@ export const UserProvider = ({ children }) => {
 				statusName: statusInfo.name,
 				maxPoints: statusInfo.maxPoints
 			});
+			setAuthError(false);
 		} catch (e) {
 			console.warn('Не удалось загрузить пользователя', e);
 			setUser(null);
+			setAuthError(true);
 		} finally {
 			setIsLoading(false);
-			setHasTriedLoadOnce(true); // ✅ отработали один раз
+			setHasTriedLoadOnce(true);
 		}
 	}, [api]);
 
@@ -57,7 +60,15 @@ export const UserProvider = ({ children }) => {
 	}, [refreshUser]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, refreshUser, isLoading, hasTriedLoadOnce }}>
+		<UserContext.Provider
+			value={{
+				user,
+				setUser,
+				refreshUser,
+				isLoading,
+				hasTriedLoadOnce,
+				authError // ✅ добавлено
+			}}>
 			{children}
 		</UserContext.Provider>
 	);
@@ -70,3 +81,4 @@ export const useUser = () => {
 	}
 	return context;
 };
+
