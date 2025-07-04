@@ -126,7 +126,7 @@ const StartPage = () => {
             <div className="start-content">
 
                 <div className="start-top">
-                    <h2 style={{ color: 'var(--primary-color)' }}>Fitboxing club</h2>
+                    <h1 style={{ color: 'var(--primary-color)' }}>Fitboxing Club</h1>
                     <p>Начни прямо сейчас!</p>
                 </div>
 

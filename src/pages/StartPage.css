@@ -27,15 +27,16 @@
 
 /* Первая картинка */
 .background1 {
-    background-image: url("/public/images/start-m.webp");
-    margin: 40px;
+    background-image: url("/public/images/start-w.webp");
+    margin: 10px;
     border-radius: 10px;
 }
 
 /* Вторая картинка */
 .background2 {
-    background-image: url("/public/images/start-w.webp");
-    margin: 40px;
+    background-image: url("/public/images/start-m.webp");
+    margin: 10px;
+    margin-top: 0;
     border-radius: 10px;
 }
 
@@ -62,27 +63,30 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; Убираем или меняем */
     align-items: center;
     text-align: center;
     padding: 20px;
 }
 
 .start-top {
-    text-align: center;
-    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* <-- вот сюда */
+    justify-content: center;
+    align-items: center;
 }
 
 .start-bottom {
-    position: absolute;
-    bottom: 0;
-    align-self: center;
+    margin-top: auto; /* Прижимает вниз */
+    margin-bottom: 20px;
     display: flex;
-    justify-content: center;
-    gap: 20px;
     flex-direction: column;
-    margin: 20px;
+    gap: 20px;
+    align-items: center;
 }
+
+
 
 .start-button {
     padding: 10px 20px;
