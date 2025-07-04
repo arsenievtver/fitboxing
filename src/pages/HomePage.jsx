@@ -8,27 +8,31 @@ import DonutDashboard from "../components/Dashboard/DonutDashboard.jsx";
 import { useUser } from '../context/UserContext';
 import { format, parseISO } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import './HomePage.css'
+import './HomePage.css';
 
 const HomePage = () => {
-    const { user, isLoading } = useUser();
+    const { user, isLoading, hasTriedLoadOnce } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isLoading && !user) {
-            navigate('/');
+        // Навигация только если уже была попытка загрузки, загрузка закончена и пользователя нет
+        if (hasTriedLoadOnce && !isLoading && !user) {
+            navigate('/', { replace: true });
         }
-    }, [user, isLoading, navigate]);
+    }, [user, isLoading, hasTriedLoadOnce, navigate]);
+
+    // Меморизируем на основе bookings, чтобы не ломать правила хуков
+    const bookings = user?.bookings || [];
 
     const lastTraining = useMemo(() => {
-        if (!user || !user.bookings) return null;
+        if (bookings.length === 0) return null;
 
-        const sorted = [...user.bookings]
+        const sorted = [...bookings]
             .filter(b => b.is_done && b.slot?.time)
             .sort((a, b) => new Date(b.slot.time) - new Date(a.slot.time));
 
         return sorted[0] || null;
-    }, [user]);
+    }, [bookings]);
 
     const donutValues = {
         strength: lastTraining?.power ?? 0,
@@ -40,7 +44,10 @@ const HomePage = () => {
         ? format(parseISO(lastTraining.slot.time), 'dd MMMM', { locale: ru })
         : null;
 
-    if (isLoading) return <div>Загрузка...</div>;
+    // Пока первый раз не загрузили — показываем спиннер
+    if (isLoading && !hasTriedLoadOnce) return <div>Загрузка...</div>;
+
+    // Если пользователь не авторизован — PrivateRoute должен редиректить, но на всякий случай
     if (!user) return null;
 
     return (

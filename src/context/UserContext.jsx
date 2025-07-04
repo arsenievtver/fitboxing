@@ -23,8 +23,9 @@ const STATUS_MAP = {
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
-	const navigate = useNavigate();
+	const [hasTriedLoadOnce, setHasTriedLoadOnce] = useState(false); // ✅
 
+	const navigate = useNavigate();
 	const api = useMemo(() => createApi(navigate), [navigate]);
 
 	const refreshUser = useCallback(async () => {
@@ -37,18 +38,17 @@ export const UserProvider = ({ children }) => {
 				maxPoints: 0
 			};
 
-			const enrichedUser = {
+			setUser({
 				...data,
 				statusName: statusInfo.name,
 				maxPoints: statusInfo.maxPoints
-			};
-
-			setUser(enrichedUser);
+			});
 		} catch (e) {
 			console.warn('Не удалось загрузить пользователя', e);
 			setUser(null);
 		} finally {
 			setIsLoading(false);
+			setHasTriedLoadOnce(true); // ✅ отработали один раз
 		}
 	}, [api]);
 
@@ -57,7 +57,7 @@ export const UserProvider = ({ children }) => {
 	}, [refreshUser]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, refreshUser, isLoading }}>
+		<UserContext.Provider value={{ user, setUser, refreshUser, isLoading, hasTriedLoadOnce }}>
 			{children}
 		</UserContext.Provider>
 	);

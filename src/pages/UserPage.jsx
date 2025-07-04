@@ -34,7 +34,7 @@ const Section = ({ title, children, onExpand }) => {
         const next = !expanded;
         setExpanded(next);
         if (next && typeof onExpand === 'function') {
-            onExpand(); // вызываем обновление при раскрытии
+            onExpand();
         }
     };
 
@@ -56,20 +56,18 @@ const UserRow = ({ label, value }) => (
     </div>
 );
 
-// Добавляем обработчик удаления и отображаем корзину
 const SlotRow = ({ slot, onDelete }) => (
     <div className="row booking-row">
         <span className="value">{formatDate(slot.time)}</span>
         <span className="value">{formatTime(slot.time)}</span>
         <span className="value">{(slot.type)}</span>
         <span className="trash-booking">
-            {/* корзина с курсором pointer */}
             <FaTrash
                 style={{ marginLeft: '10px', cursor: 'pointer', color: 'var(--primary-color-2)' }}
                 onClick={() => onDelete(slot.bookingId)}
                 title="Удалить запись"
             />
-		</span>
+        </span>
     </div>
 );
 
@@ -77,7 +75,6 @@ const UserPage = () => {
     const { user, setUser, refreshUser } = useUser();
     const navigate = useNavigate();
     const api = createApi(navigate);
-    const [bookingRefreshTime, setBookingRefreshTime] = useState(Date.now());
 
     const handleLogout = async () => {
         try {
@@ -91,16 +88,10 @@ const UserPage = () => {
         }
     };
 
-    const handleExpandBookings = async () => {
-        try {
-            await refreshUser();
-            setBookingRefreshTime(Date.now()); // триггерим обновление UI
-        } catch (error) {
-            console.error('Не удалось обновить записи пользователя:', error);
-        }
+    const handleExpandBookings = () => {
+        // больше ничего не делаем
     };
 
-    // Добавляем удаление с подтверждением
     const handleDeleteBooking = async (bookingId) => {
         if (!bookingId) {
             alert('Ошибка: не найден ID записи для удаления');
@@ -120,6 +111,12 @@ const UserPage = () => {
     };
 
     if (!user) return null;
+
+    const upcomingBookings = user.bookings.filter(booking => {
+        const today = new Date();
+        const slotTime = new Date(booking.slot?.time);
+        return booking.is_done === false && slotTime >= today;
+    }).sort((a, b) => new Date(a.slot.time) - new Date(b.slot.time));
 
     return (
         <MainLayout>
@@ -154,30 +151,22 @@ const UserPage = () => {
                 </Section>
 
                 <Section title="Мои записи" onExpand={handleExpandBookings}>
-                    {user.bookings
-                        .filter(booking => {
-                            const today = new Date();
-                            const slotTime = new Date(booking.slot?.time);
-                            return booking.is_done === false && slotTime >= today;
-                        })
-                        .sort((a, b) => new Date(a.slot.time) - new Date(b.slot.time))
-                        .map(booking => (
+                    {upcomingBookings.length > 0 ? (
+                        upcomingBookings.map(booking => (
                             <SlotRow
-                                key={`${booking.id}-${bookingRefreshTime}`} // ключ включает таймстамп, чтобы обновлялся
+                                key={booking.id}
                                 slot={{ ...booking.slot, bookingId: booking.id }}
                                 onDelete={handleDeleteBooking}
                             />
                         ))
-                    }
-
-                    {user.bookings.filter(booking => booking.is_done === false && new Date(booking.slot?.time) >= new Date()).length === 0 && (
+                    ) : (
                         <div className="row"><span className="value">Записей пока нет</span></div>
                     )}
                 </Section>
 
                 <ButtonMy onClick={handleLogout} className="button_exit">Выйти</ButtonMy>
             </div>
-            <br/><br/><br/><br/>
+            <br /><br /><br /><br />
         </MainLayout>
     );
 };
