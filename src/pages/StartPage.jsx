@@ -50,15 +50,21 @@ const StartPage = () => {
             });
 
             localStorage.setItem(JWT_STORAGE_KEY, data.access_token);
+
+            // ⛳ Добавляем сохранение refresh_token для iOS
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                localStorage.setItem('refresh_token_ios', data.refresh_token);
+            }
+
             await refreshUser();
 
-            closeModal();  // <--- закрываем модалку, сбрасываем поля
-
+            closeModal();
             navigate('/home');
         } catch (e) {
             setError(e.response?.data?.detail || 'Ошибка входа');
         }
     };
+
 
     const handleSignup = async () => {
         if (!phone || !email || !name || !lastName || !password || !confirmPassword || !gender) {
