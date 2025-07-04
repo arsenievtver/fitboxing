@@ -7,6 +7,7 @@ import EnergyPage from './pages/EnergyPage';
 import UserPage from './pages/UserPage';
 import Footer from './components/Footer/Footer.jsx';
 import StartPage from './pages/StartPage.jsx';
+import PrivateRoute from './routes/PrivateRoute'; // ✅ добавили
 
 const AppContent = () => {
     const location = useLocation();
@@ -16,20 +17,25 @@ const AppContent = () => {
     return (
         <>
             <Routes>
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/finance" element={<FinancePage />} />
-                <Route path="/energy" element={<EnergyPage />} />
-                <Route path="/user" element={<UserPage />} />
                 <Route path="/" element={<StartPage />} />
+                <Route path="/home" element={
+                    <PrivateRoute><HomePage /></PrivateRoute>
+                } />
+                <Route path="/finance" element={
+                    <PrivateRoute><FinancePage /></PrivateRoute>
+                } />
+                <Route path="/energy" element={
+                    <PrivateRoute><EnergyPage /></PrivateRoute>
+                } />
+                <Route path="/user" element={
+                    <PrivateRoute><UserPage /></PrivateRoute>
+                } />
             </Routes>
             {shouldShowFooter && <Footer />}
         </>
     );
 };
 
-// ⛔️ Удаляем второй Router
 const AppRouter = () => <AppContent />;
 
 export default AppRouter;
-
-

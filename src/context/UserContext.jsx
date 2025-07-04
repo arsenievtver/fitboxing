@@ -22,11 +22,13 @@ const STATUS_MAP = {
 
 export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const navigate = useNavigate();
 
 	const api = useMemo(() => createApi(navigate), [navigate]);
 
 	const refreshUser = useCallback(async () => {
+		setIsLoading(true);
 		try {
 			const { data } = await api.get('/api/v1/users/me');
 
@@ -45,6 +47,8 @@ export const UserProvider = ({ children }) => {
 		} catch (e) {
 			console.warn('Не удалось загрузить пользователя', e);
 			setUser(null);
+		} finally {
+			setIsLoading(false);
 		}
 	}, [api]);
 
@@ -53,7 +57,7 @@ export const UserProvider = ({ children }) => {
 	}, [refreshUser]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, refreshUser }}>
+		<UserContext.Provider value={{ user, setUser, refreshUser, isLoading }}>
 			{children}
 		</UserContext.Provider>
 	);
