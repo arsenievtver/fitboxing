@@ -78,7 +78,6 @@ export function createApi(navigate) {
 				} catch (e) {
 					publish(null, e);
 					localStorage.removeItem(JWT_STORAGE_KEY);
-					localStorage.removeItem(REFRESH_TOKEN_KEY); // на всякий
 					navigate('/');
 					return Promise.reject(e);
 				} finally {
