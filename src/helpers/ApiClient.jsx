@@ -1,4 +1,3 @@
-// src/helpers/ApiClient.js
 import axios from 'axios';
 import { PREFIX, JWT_STORAGE_KEY, refreshUrl } from './constants';
 
@@ -8,13 +7,39 @@ function isIOS() {
 	return /iPhone|iPad|iPod/.test(navigator.userAgent);
 }
 
+// Универсальный метод обновления токена
+export async function refreshTokenManually() {
+	const refresh_token = localStorage.getItem(REFRESH_TOKEN_KEY);
+
+	try {
+		let data;
+
+		if (isIOS()) {
+			if (!refresh_token) throw new Error('Missing refresh token on iOS');
+			({ data } = await axios.post(`${refreshUrl}?refresh_token=${refresh_token}`));
+		} else {
+			({ data } = await axios.post(refreshUrl, {}, { withCredentials: true }));
+		}
+
+		const newToken = data.access_token;
+		localStorage.setItem(JWT_STORAGE_KEY, newToken);
+		return newToken;
+
+	} catch (e) {
+		console.warn('🔁 Ошибка при refresh:', e.message || e);
+		localStorage.removeItem(JWT_STORAGE_KEY);
+		if (isIOS()) localStorage.removeItem(REFRESH_TOKEN_KEY);
+		throw e;
+	}
+}
+
 export function createApi(navigate) {
 	const api = axios.create({
 		baseURL: PREFIX,
 		withCredentials: true
 	});
 
-	// ⛳ Access Token подставляется как обычно
+	// ⛳ Подставляем access token в каждый запрос
 	api.interceptors.request.use(cfg => {
 		if (!cfg.url.includes('refresh')) {
 			const t = localStorage.getItem(JWT_STORAGE_KEY);
@@ -32,6 +57,7 @@ export function createApi(navigate) {
 		queue = [];
 	};
 
+	// ⛳ Обрабатываем ошибки
 	api.interceptors.response.use(
 		resp => resp,
 		async (err) => {
@@ -55,29 +81,16 @@ export function createApi(navigate) {
 				refreshing = true;
 
 				try {
-					let data;
+					const newToken = await refreshTokenManually();
 
-					// 🧠 iOS → шлём refresh_token в теле
-					if (isIOS()) {
-						const refresh_token = localStorage.getItem(REFRESH_TOKEN_KEY);
-						if (!refresh_token) {
-							return Promise.reject(new Error('Missing refresh token on iOS'));
-						}
-						({ data } = await axios.post(refreshUrl, { refresh_token }));
-					} else {
-						({ data } = await api.post(refreshUrl, {}));
-					}
-
-					const newToken = data.access_token;
-					localStorage.setItem(JWT_STORAGE_KEY, newToken);
 					api.defaults.headers.Authorization = `Bearer ${newToken}`;
-					publish(newToken);
-
 					original.headers.Authorization = `Bearer ${newToken}`;
+					localStorage.setItem(JWT_STORAGE_KEY, newToken);
+
+					publish(newToken);
 					return api(original);
 				} catch (e) {
 					publish(null, e);
-					localStorage.removeItem(JWT_STORAGE_KEY);
 					navigate('/');
 					return Promise.reject(e);
 				} finally {
