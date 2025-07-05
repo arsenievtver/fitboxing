@@ -11,14 +11,19 @@ function isIOS() {
 export async function refreshTokenManually() {
 	const refresh_token = localStorage.getItem(REFRESH_TOKEN_KEY);
 
+	const instance = axios.create({
+		baseURL: PREFIX,
+		withCredentials: true
+	});
+
 	try {
 		let data;
 
 		if (isIOS()) {
 			if (!refresh_token) throw new Error('Missing refresh token on iOS');
-			({ data } = await axios.post(`${refreshUrl}?refresh_token=${refresh_token}`));
+			({ data } = await instance.post(`${refreshUrl}?refresh_token=${refresh_token}`));
 		} else {
-			({ data } = await axios.post(refreshUrl, {}, { withCredentials: true }));
+			({ data } = await instance.post(refreshUrl, {}));
 		}
 
 		const newToken = data.access_token;
@@ -32,6 +37,7 @@ export async function refreshTokenManually() {
 		throw e;
 	}
 }
+
 
 export function createApi(navigate) {
 	const api = axios.create({
