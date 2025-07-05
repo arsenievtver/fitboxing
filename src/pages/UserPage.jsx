@@ -83,10 +83,13 @@ const UserPage = () => {
             console.error('Ошибка при выходе:', error);
         } finally {
             localStorage.removeItem(JWT_STORAGE_KEY);
+            localStorage.removeItem('refresh_token_ios'); // 💥 удаляем refresh
+            // Или: localStorage.clear(); — если нет других нужных данных
             setUser(null);
             navigate('/');
         }
     };
+
 
     const handleExpandBookings = () => {
         // больше ничего не делаем
