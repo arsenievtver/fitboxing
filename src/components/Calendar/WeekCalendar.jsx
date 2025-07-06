@@ -51,7 +51,7 @@ const CalendarComponent = ({ days, handleDayClick, activeDay }) => (
 
 const swipeVariants = {
     enter: (direction) => ({
-        x: direction === 'left' ? 300 : -300,
+        x: direction === 'left' ? 200 : -200,
         opacity: 0
     }),
     center: {
@@ -59,7 +59,7 @@ const swipeVariants = {
         opacity: 1
     },
     exit: (direction) => ({
-        x: direction === 'left' ? -300 : 300,
+        x: direction === 'left' ? -200 : 200,
         opacity: 0
     })
 };
@@ -113,7 +113,7 @@ const WeekCalendar = () => {
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        transition={{ duration: 0.2 }}
+                        transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
                     >
                         <div className="month-label">{monthLabel}</div>
                         <CalendarComponent
