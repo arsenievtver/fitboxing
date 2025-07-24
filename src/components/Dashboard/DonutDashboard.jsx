@@ -69,7 +69,7 @@ const DonutDashboard = ({ values = {} }) => {
             label: 'Сила',
             color: 'var(--primary-color-2)',
             size: 80,
-            maxValue: 1200
+            maxValue: 100
         },
         {
             key: 'energy',
