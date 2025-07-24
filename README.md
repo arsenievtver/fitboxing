@@ -1,2 +1,0 @@
-# fitboxing
-fitboxing app
