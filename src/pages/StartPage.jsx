@@ -121,7 +121,7 @@ const StartPage = () => {
             <div className="background-wrapper">
                 <div className="background1">
                     <div className="logo-wrapper">
-                        <img src="/images/all_wite.webp" alt="Логотип" className="logo-img" />
+                        <img src="/images/all_wite2.webp" alt="Логотип" className="logo-img" />
                     </div>
                 </div>
             </div>
