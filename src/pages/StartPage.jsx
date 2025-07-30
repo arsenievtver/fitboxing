@@ -119,17 +119,14 @@ const StartPage = () => {
     return (
         <div className="start-container">
             <div className="background-wrapper">
-                <div className="background1"></div>
-                <div className="background2"></div>
+                <div className="background1">
+                    <div className="logo-wrapper">
+                        <img src="/public/images/all_wite.webp" alt="Логотип" className="logo-img" />
+                    </div>
+                </div>
             </div>
             <div className="start-overlay"></div>
             <div className="start-content">
-
-                <div className="start-top">
-                    <h1 style={{ color: 'var(--primary-color)' }}>Fitboxing Club</h1>
-                    <p>Начни прямо сейчас!</p>
-                </div>
-
                 <div className="start-bottom">
                     <ButtonMy onClick={() => setMode('login')}>Войти</ButtonMy>
                     <button onClick={() => setMode('signup')} className="back-button">Зарегистрироваться</button>

@@ -10,18 +10,16 @@
 }
 
 .background-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column; /* на мобиле - вертикально */
+    justify-content: center;
+    align-items: center;
     z-index: 0;
 }
 
 .background-wrapper > div {
-    flex: 1; /* обе картинки занимают поровну пространства */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -29,13 +27,17 @@
 
 /* Первая картинка */
 .background1 {
-    background-image: url("/public/images/start-w.webp");
-    margin: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    max-width: 600px;
+    height: 300px; /* или 60vh, или clamp() */
     border-radius: 10px;
 }
 
 /* Вторая картинка */
-.background2 {
+/*.background2 {
     background-image: url("/public/images/start-m.webp");
     margin: 10px;
     margin-top: 0;
@@ -62,7 +64,7 @@
 .start-content {
     position: relative;
     z-index: 2;
-    height: 100%;
+    height: 30%;
     display: flex;
     flex-direction: column;
     /* justify-content: center; Убираем или меняем */
@@ -122,4 +124,23 @@
 .back-button:hover {
     text-decoration: none;
     opacity: 0.8;
+}
+
+@keyframes blurInZoom {
+    0% {
+        opacity: 0;
+        filter: blur(10px);
+        transform: scale(2); /* вот оно! */
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1);
+    }
+}
+
+.logo-img {
+    max-width: 100%;
+    max-height: 100%;
+    animation: blurInZoom 1.5s ease-out forwards;
 }
