@@ -16,7 +16,8 @@ const UploadAvatarModal = ({ onClose, onUpload }) => {
 		if (!selectedFile) return alert("Выберите файл");
 
 		const formData = new FormData();
-		formData.append("photo", selectedFile);
+		formData.append("file", selectedFile); // 👈 ключ именно "file"
+
 		onUpload(formData);
 	};
 
