@@ -13,7 +13,7 @@ const UploadAvatarModal = ({ onClose, onUpload }) => {
 	};
 
 	const handleUpload = () => {
-		if (!selectedFile) return alert("Выберите файл");
+		if (!selectedFile) return alert("Выберите фото");
 
 		const formData = new FormData();
 		formData.append("file", selectedFile); // 👈 ключ именно "file"
@@ -41,7 +41,7 @@ const UploadAvatarModal = ({ onClose, onUpload }) => {
 					style={{ display: 'none' }}
 				/>
 				<div className="selected-file-name">
-					{selectedFile ? selectedFile.name : 'Файл не выбран'}
+					{selectedFile ? selectedFile.name : 'Фото не выбрано'}
 				</div>
 			</div>
 
