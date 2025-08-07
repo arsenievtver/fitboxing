@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logoutUrl, PREFIX, JWT_STORAGE_KEY, deleteBookingUrl } from '../helpers/constants.js'; // добавил deleteBookingUrl
+import { logoutUrl, PREFIX, JWT_STORAGE_KEY, deleteBookingUrl, postAvatarMeUrl } from '../helpers/constants.js'; // добавил deleteBookingUrl
 import { createApi } from '../helpers/ApiClient';
 import { useUser } from '../context/UserContext';
 import MainLayout from '../components/layouts/MainLayout';
 import ButtonMy from '../components/Buttons/ButtonMy.jsx';
 import { FaChevronDown, FaChevronUp, FaTrash } from 'react-icons/fa';
 import './UserPage.css';
+import UploadAvatarModal from '../components/Forms/UploadAvatarModal';
+
 
 const formatDate = (dateStr) => {
     if (!dateStr) return '-';
@@ -71,10 +73,12 @@ const SlotRow = ({ slot, onDelete }) => (
     </div>
 );
 
+
 const UserPage = () => {
     const { user, setUser, refreshUser } = useUser();
     const navigate = useNavigate();
     const api = createApi(navigate);
+    const [showUploadModal, setShowUploadModal] = useState(false);
 
     const handleLogout = async () => {
         try {
@@ -123,7 +127,12 @@ const UserPage = () => {
 
     return (
         <MainLayout>
-            <div className={`user-avatar-block ${user.gender === 'жен' ? 'female' : ''}`}>
+            <div
+                className={`user-avatar-block ${user.gender === 'жен' ? 'female' : ''}`}
+                onClick={() => setShowUploadModal(true)}
+                style={{ cursor: 'pointer' }}
+                title="Кликните, чтобы сменить фото"
+            >
                 <img
                     src={user.photo_url || (user.gender === 'жен' ? "/images/avatar-f-y.webp" : "/images/avatar.webp")}
                     alt="Аватар"
@@ -131,6 +140,7 @@ const UserPage = () => {
                 />
                 <div className="username">{user.name} {user.last_name}</div>
             </div>
+
 
 
             <div className="user_data">
@@ -171,6 +181,22 @@ const UserPage = () => {
                 <ButtonMy onClick={handleLogout} className="button_exit">Выйти</ButtonMy>
             </div>
             <br /><br /><br /><br />
+            {showUploadModal && (
+                <UploadAvatarModal
+                    onClose={() => setShowUploadModal(false)}
+                    onUpload={async (formData) => {
+                        try {
+                            await api.post(PREFIX + postAvatarMeUrl, formData);
+                            await refreshUser(); // обновим user
+                            setShowUploadModal(false);
+                        } catch (err) {
+                            console.error("Ошибка загрузки аватара", err);
+                            alert("Не удалось загрузить фото.");
+                        }
+                    }}
+                />
+            )}
+
         </MainLayout>
     );
 };

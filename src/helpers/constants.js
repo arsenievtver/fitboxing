@@ -11,3 +11,4 @@ export const getSlotsByIdsUrl = (ids) =>
 export const postBookingUrl = '/api/v1/bookings/';
 export const deleteBookingUrl = (id) => `/api/v1/bookings/${id}`;
 export const postWeightMeUrl = '/api/v1/records/';
+export const postAvatarMeUrl = '/api/v1/users/add_photo/';
