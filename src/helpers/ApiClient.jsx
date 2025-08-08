@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { PREFIX, JWT_STORAGE_KEY, refreshUrl } from './constants';
 
-const REFRESH_TOKEN_KEY = 'refresh_token_ios';
-
-function isIOS() {
-	return /iPhone|iPad|iPod/.test(navigator.userAgent);
-}
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 // Универсальный метод обновления токена
 export async function refreshTokenManually() {
 	const refresh_token = localStorage.getItem(REFRESH_TOKEN_KEY);
+
+	if (!refresh_token) throw new Error('Missing refresh token');
 
 	const instance = axios.create({
 		baseURL: PREFIX,
@@ -17,27 +15,22 @@ export async function refreshTokenManually() {
 	});
 
 	try {
-		let data;
+		const { data } = await instance.post(`${refreshUrl}?refresh_token=${refresh_token}`);
 
-		if (isIOS()) {
-			if (!refresh_token) throw new Error('Missing refresh token on iOS');
-			({ data } = await instance.post(`${refreshUrl}?refresh_token=${refresh_token}`));
-		} else {
-			({ data } = await instance.post(refreshUrl, {}));
-		}
+		const newAccessToken = data.access_token;
+		const newRefreshToken = data.refresh_token || refresh_token; // вдруг сервер пришлёт новый
 
-		const newToken = data.access_token;
-		localStorage.setItem(JWT_STORAGE_KEY, newToken);
-		return newToken;
+		localStorage.setItem(JWT_STORAGE_KEY, newAccessToken);
+		localStorage.setItem(REFRESH_TOKEN_KEY, newRefreshToken);
 
+		return newAccessToken;
 	} catch (e) {
 		console.warn('🔁 Ошибка при refresh:', e.message || e);
 		localStorage.removeItem(JWT_STORAGE_KEY);
-		if (isIOS()) localStorage.removeItem(REFRESH_TOKEN_KEY);
+		localStorage.removeItem(REFRESH_TOKEN_KEY);
 		throw e;
 	}
 }
-
 
 export function createApi(navigate) {
 	const api = axios.create({
@@ -91,6 +84,7 @@ export function createApi(navigate) {
 
 					api.defaults.headers.Authorization = `Bearer ${newToken}`;
 					original.headers.Authorization = `Bearer ${newToken}`;
+
 					localStorage.setItem(JWT_STORAGE_KEY, newToken);
 
 					publish(newToken);

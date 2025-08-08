@@ -27,6 +27,7 @@ const StartPage = () => {
     const [error, setError] = useState(null);
 
     const { user, refreshUser } = useUser();
+    const REFRESH_TOKEN_KEY = 'refresh_token'; // общий ключ для всех устройств
 
     // ✅ Редирект, если уже авторизован
     useEffect(() => {
@@ -49,12 +50,9 @@ const StartPage = () => {
                 }
             });
 
+            // Сохраняем оба токена в localStorage
             localStorage.setItem(JWT_STORAGE_KEY, data.access_token);
-
-            // ⛳ Добавляем сохранение refresh_token для iOS
-            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-                localStorage.setItem('refresh_token_ios', data.refresh_token);
-            }
+            localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
 
             await refreshUser();
 
