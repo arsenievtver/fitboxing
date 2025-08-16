@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import '../../pages/UserPage.css'; // если нужные стили уже там
+import '../../pages/UserPage.css';
+import TrainingResultsModal from '../Modals/TrainingResultsModal';
 
-const TrainingRow = ({ power, energy, tempo, date }) => (
-	<div className="row booking-row">
+const TrainingRow = ({ power, energy, tempo, date, onClick }) => (
+	<div className="row booking-row" onClick={onClick} style={{ cursor: 'pointer' }}>
 		<span className="value">{date}</span>
 		<span className="value"><span style={{ color: 'var(--primary-color-2)' }}>{power}</span></span>
 		<span className="value"><span style={{ color: 'var(--primary-color)' }}>{Math.round(energy)}</span></span>
@@ -22,14 +23,14 @@ const formatShortDate = (dateStr) => {
 
 const PreviousTrainings = ({ bookings = [] }) => {
 	const [expanded, setExpanded] = useState(false);
+	const [selectedSlotId, setSelectedSlotId] = useState(null);
 
 	const toggleExpanded = () => setExpanded(prev => !prev);
 
-	// отфильтровать и отсортировать завершённые тренировки
 	const doneBookings = bookings
 		.filter(b => b.is_done)
-		.sort((a, b) => new Date(b.slot?.time) - new Date(a.slot?.time)) // по убыванию
-		.slice(0, 5); // последние 5
+		.sort((a, b) => new Date(b.slot?.time) - new Date(a.slot?.time))
+		.slice(0, 5);
 
 	return (
 		<div className="section">
@@ -37,6 +38,7 @@ const PreviousTrainings = ({ bookings = [] }) => {
 				<h3 style={{ margin: 0 }}>Предыдущие тренировки</h3>
 				{expanded ? <FaChevronUp color="var(--primary-color)"/> : <FaChevronDown color="var(--primary-color)"/>}
 			</div>
+
 			{expanded && (
 				<div className="section-content">
 					{doneBookings.length > 0 ? (
@@ -47,12 +49,20 @@ const PreviousTrainings = ({ bookings = [] }) => {
 								power={b.power ?? '-'}
 								energy={b.energy ?? '-'}
 								tempo={b.tempo ?? '-'}
+								onClick={() => setSelectedSlotId(b.slot?.id)}
 							/>
 						))
 					) : (
 						<div className="row"><span className="value">Нет завершённых тренировок</span></div>
 					)}
 				</div>
+			)}
+
+			{selectedSlotId && (
+				<TrainingResultsModal
+					slotId={selectedSlotId}
+					onClose={() => setSelectedSlotId(null)}
+				/>
 			)}
 		</div>
 	);
