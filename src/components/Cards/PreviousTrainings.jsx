@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaChevronRight } from 'react-icons/fa';
 import '../../pages/UserPage.css';
 import TrainingResultsModal from '../Modals/TrainingResultsModal';
 
@@ -9,6 +9,7 @@ const TrainingRow = ({ power, energy, tempo, date, onClick }) => (
 		<span className="value"><span style={{ color: 'var(--primary-color-2)' }}>{power}</span></span>
 		<span className="value"><span style={{ color: 'var(--primary-color)' }}>{Math.round(energy)}</span></span>
 		<span className="value"><span style={{ color: 'var(--primary-color-3)' }}>{Math.round(tempo)}</span></span>
+		<FaChevronRight color="var(--primary-color)" size={10} />
 	</div>
 );
 
