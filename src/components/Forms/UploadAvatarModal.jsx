@@ -13,16 +13,38 @@ const UploadAvatarModal = ({ onClose, onUpload }) => {
 		if (!file) return;
 
 		try {
-			// Создаём bitmap с автоматическим учётом ориентации
-			await createImageBitmap(file, { imageOrientation: "from-image" });
+			// создаём bitmap c учётом EXIF
+			const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
 
-			// Делаем blob URL для предпросмотра
-			const url = URL.createObjectURL(file);
-			setSelectedFile(file);
-			setPreviewUrl(url);
+			// берём квадратную сторону
+			const size = Math.min(bitmap.width, bitmap.height);
+
+			// создаём canvas квадратного размера
+			const canvas = document.createElement("canvas");
+			canvas.width = size;
+			canvas.height = size;
+			const ctx = canvas.getContext("2d");
+
+			// центрируем обрезку
+			const offsetX = (bitmap.width - size) / 2;
+			const offsetY = (bitmap.height - size) / 2;
+
+			ctx.drawImage(bitmap, offsetX, offsetY, size, size, 0, 0, size, size);
+
+			// получаем превью как blob + url
+			canvas.toBlob((blob) => {
+				if (blob) {
+					const croppedFile = new File([blob], file.name, { type: "image/jpeg" });
+					setSelectedFile(croppedFile);
+
+					const url = URL.createObjectURL(blob);
+					setPreviewUrl(url);
+				}
+			}, "image/jpeg", 0.9);
 		} catch (err) {
 			console.error("Ошибка обработки изображения:", err);
-			setSelectedFile(file); // fallback без поворота
+			setSelectedFile(file);
+			setPreviewUrl(URL.createObjectURL(file));
 		}
 	};
 
