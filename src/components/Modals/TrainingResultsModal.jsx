@@ -43,11 +43,17 @@ const TrainingResultsModal = ({ slotId, onClose }) => {
 							>
 								<span className="place-rat">{idx + 1}.</span>
 								<div className="avatar-rat">
-									{r.photo_url ? (
-										<img src={`${PHOTO_BASE_URL}${r.photo_url}`} alt={r.name} />
-									) : (
-										<div style={{ background: '#ccc', width: '100%', height: '100%' }} />
-									)}
+									<img
+										src={
+											r.photo_url
+												? `${PHOTO_BASE_URL}${r.photo_url}`
+												: r.gender === 'жен'
+													? "/images/avatar-f-y.webp"
+													: "/images/avatar.webp"
+										}
+										alt={r.name}
+										className="avatar-img"
+									/>
 								</div>
 								<span className="name-rat">{r.name} </span>
 								<span className="energy-rat">  ⚡️{Math.round(r.energy)}</span>
