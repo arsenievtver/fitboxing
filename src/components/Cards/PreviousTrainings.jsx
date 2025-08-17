@@ -37,7 +37,7 @@ const PreviousTrainings = ({ bookings = [] }) => {
 	return (
 		<div className="section">
 			<div className="section-header" onClick={toggleExpanded}>
-				<h3 style={{ margin: 0 }}>Предыдущие тренировки</h3>
+				<h3 style={{ margin: 0 }}>Тренировки и рейтинг</h3>
 				{expanded ? <FaChevronUp color="var(--primary-color)"/> : <FaChevronDown color="var(--primary-color)"/>}
 			</div>
 
