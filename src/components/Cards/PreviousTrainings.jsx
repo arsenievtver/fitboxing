@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaChevronRight } from 'react-icons/fa';
 import '../../pages/UserPage.css';
 import TrainingResultsModal from '../Modals/TrainingResultsModal';
+import './PreviousTrainings.css'
 
 const TrainingRow = ({ power, energy, tempo, date, onClick }) => (
 	<div className="row booking-row" onClick={onClick} style={{ cursor: 'pointer' }}>
