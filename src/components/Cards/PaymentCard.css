@@ -2,7 +2,7 @@
     background: var(--secondary-color);
     color: var(--text-color);
     padding: 10px;
-    border-radius: 16px;
+    border-radius: 10px;
     width: calc(50% - 16px);
     margin: 8px;
     display: flex;
