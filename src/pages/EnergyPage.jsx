@@ -33,7 +33,7 @@ const EnergyPage = () => {
         if (!user?.bookings) return null;
 
         const sorted = [...user.bookings]
-            .filter(b => b.is_done && b.slot?.time)
+            .filter(b => b.slot.is_done && b.slot?.time)
             .sort((a, b) => new Date(b.slot.time) - new Date(a.slot.time)); // по убыванию
 
         return sorted[0] || null;

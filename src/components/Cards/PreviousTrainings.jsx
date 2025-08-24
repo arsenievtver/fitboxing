@@ -30,7 +30,7 @@ const PreviousTrainings = ({ bookings = [] }) => {
 	const toggleExpanded = () => setExpanded(prev => !prev);
 
 	const doneBookings = bookings
-		.filter(b => b.is_done)
+		.filter(b => b.slot.is_done)
 		.sort((a, b) => new Date(b.slot?.time) - new Date(a.slot?.time))
 		.slice(0, 5);
 
@@ -55,7 +55,7 @@ const PreviousTrainings = ({ bookings = [] }) => {
 							/>
 						))
 					) : (
-						<div className="row"><span className="value">Нет завершённых тренировок</span></div>
+						<div className="row"><span className="value">пока нет данных :(</span></div>
 					)}
 				</div>
 			)}
