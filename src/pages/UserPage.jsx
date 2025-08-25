@@ -122,7 +122,7 @@ const UserPage = () => {
     const upcomingBookings = user.bookings.filter(booking => {
         const today = new Date();
         const slotTime = new Date(booking.slot?.time);
-        return booking.is_done === false && slotTime >= today;
+        return booking.slot.is_done === false && slotTime >= today;
     }).sort((a, b) => new Date(a.slot.time) - new Date(b.slot.time));
 
     return (
