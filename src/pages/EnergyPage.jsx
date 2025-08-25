@@ -76,9 +76,8 @@ const EnergyPage = () => {
                             </div>
                         </div>
                         <EnergyBar start_bar={0} end_bar={user?.maxPoints} count_bar={user.energy ?? 0} />
-                        <div className='donat-bar'>
-                            <h3>Тренировка за {formattedDate && ` ${formattedDate}`}</h3>
-                            <DonutDashboard values={donutValues} />
+                        <div className='donat-bar-en'>
+                            <DonutDashboard values={donutValues} formattedDate={formattedDate}/>
                             <PreviousTrainings bookings={user.bookings} />
                         </div>
                         <WeightChart data={weightData} />

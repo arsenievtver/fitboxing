@@ -56,8 +56,7 @@ const HomePage = () => {
             <WeekCalendar />
             <EnergyBar start_bar={0} end_bar={user.maxPoints} count_bar={user.energy ?? 0} />
             <VideoPlayer vimeoId="1088731673" />
-            <h3>Тренировка за {formattedDate && ` ${formattedDate}`}</h3>
-            <DonutDashboard values={donutValues} />
+            <DonutDashboard values={donutValues} formattedDate={formattedDate}/>
             <br /><br /><br /><br />
         </MainLayout>
     );
