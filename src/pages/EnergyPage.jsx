@@ -52,7 +52,7 @@ const EnergyPage = () => {
     };
 
     const cardVariants = {
-        hidden: { opacity: 0, y: -20, scale: 0.8 },
+        hidden: { opacity: 0, y: -20, scale: 0.2 },
         visible: (custom) => {
             const positions = {
                 left: { x: -40, rotate: -6 },
@@ -67,7 +67,7 @@ const EnergyPage = () => {
                 scale: 1,
                 transition: {
                     type: "spring",
-                    stiffness: 120,
+                    stiffness: 80,
                     damping: 12,
                     delay: custom * 0.15,
                     // 👇 сначала «разъезд», потом возвращение
