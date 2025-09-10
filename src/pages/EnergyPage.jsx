@@ -9,6 +9,7 @@ import EnergyBar from "../components/Charts/EnergyBar.jsx";
 import './EnergyPage.css';
 import {ru} from "date-fns/locale";
 import PreviousTrainings from '../components/Cards/PreviousTrainings.jsx';
+import { motion } from "framer-motion";
 
 const EnergyPage = () => {
     const { user } = useUser();
@@ -26,7 +27,6 @@ const EnergyPage = () => {
         }));
     }, [user]);
 
-    const score = user?.score || 0;
     const count_training = user?.count_trainings || 0;
 
     const lastTraining = useMemo(() => {
@@ -51,6 +51,32 @@ const EnergyPage = () => {
         tempo: lastTraining?.tempo ?? 0
     };
 
+    const cardVariants = {
+        hidden: { opacity: 0, y: -20, scale: 0.8 },
+        visible: (custom) => {
+            const positions = {
+                left: { x: -40, rotate: -6 },
+                center: { x: 0, rotate: 0 },
+                right: { x: 40, rotate: 6 }
+            };
+            return {
+                opacity: 1,
+                x: 0,
+                y: 0,
+                rotate: 0,
+                scale: 1,
+                transition: {
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 12,
+                    delay: custom * 0.15,
+                    // 👇 сначала «разъезд», потом возвращение
+                    from: positions[custom].x ? positions[custom] : { x: 0, rotate: 0 }
+                }
+            };
+        }
+    };
+
     return (
         <MainLayout>
             <div className="energy-container">
@@ -59,22 +85,43 @@ const EnergyPage = () => {
                 ) : (
                     <div className='container-energy-cards'>
                         <div className='status-bar'>
-                            <div className='card-info'>
+                            <motion.div
+                                className="card-info"
+                                custom="left"
+                                variants={cardVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
                                 <p>Проведено</p>
                                 <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{count_training}</span>
                                 <p>тренировок</p>
-                            </div>
-                            <div className='card-info'>
+                            </motion.div>
+
+                            <motion.div
+                                className="card-info"
+                                custom="center"
+                                variants={cardVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
                                 <p>Получено</p>
                                 <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{Math.round(user.energy) ?? 0}</span>
                                 <p>баллов</p>
-                            </div>
-                            <div className='card-info'>
+                            </motion.div>
+
+                            <motion.div
+                                className="card-info"
+                                custom="right"
+                                variants={cardVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
                                 <p>Достигнут</p>
                                 <span style={{ color: 'var(--primary-color)', fontSize: '18px' }}>{user?.statusName}</span>
                                 <p>уровень</p>
-                            </div>
+                            </motion.div>
                         </div>
+
                         <EnergyBar start_bar={0} end_bar={user?.maxPoints} count_bar={user.energy ?? 0} />
                         <div className='donat-bar-en'>
                             <DonutDashboard values={donutValues} formattedDate={formattedDate}/>
