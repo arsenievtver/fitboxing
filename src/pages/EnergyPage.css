@@ -1,0 +1,52 @@
+.energy-container{
+    width: 100%;
+}
+
+.status-bar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between; /* меньше шансов на переполнение */
+    gap: 10px;
+    box-sizing: border-box; /* обязательный пункт! */
+    overflow-x: hidden; /* запрещаем выпирание */
+    padding-bottom: 15px;
+}
+
+
+.card-info{
+    flex: 1 1 auto;
+    min-width: 0; /* запретить растягивание из-за длинных слов */
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--secondary-color);
+    border-radius: 10px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow:
+            inset 1px 1px 2px rgba(255, 255, 255, 0.03),
+            inset -2px -2px 4px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+
+}
+
+.donat-bar-en{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.container-energy-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
