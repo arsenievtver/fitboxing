@@ -14,7 +14,7 @@ const ModalWindow = ({ activeDay, closeModal }) => {
     const api = useApi();
 
     // ✅ получаем refreshUser из контекста
-    const { refreshUser } = useUser();
+    const { user, refreshUser } = useUser();
 
     // Формируем диапазон времени
     const isValidDay = activeDay && dayjs.isDayjs(activeDay);
@@ -38,8 +38,16 @@ const ModalWindow = ({ activeDay, closeModal }) => {
 
             if (response.status === 201) {
                 alert('✅ Вы успешно записаны!');
-                await refreshUser(); // ✅ обновляем данные пользователя
-                closeModal(); // 💥 Закрываем модалку
+                await refreshUser(); // обновляем данные пользователя
+
+                // ⚡️ если у пользователя есть telegram_id → отправляем сообщение
+                if (user?.telegram_id) {
+                    const dateStr = dayjs(slot.time).format("DD.MM.YY");
+                    const timeStr = dayjs(slot.time).format("HH:mm");
+                    await sendTelegramMessage(user.telegram_id, dateStr, timeStr);
+                }
+
+                closeModal();
                 setSelectedSlot(null);
             }
         } catch (error) {
@@ -51,6 +59,28 @@ const ModalWindow = ({ activeDay, closeModal }) => {
             }
         }
     };
+
+    const sendTelegramMessage = async (telegramId, date, time) => {
+        const BOT_TOKEN = "7728171720:AAGyOYHnvnwScbctXvaYu2p45rKQRU_T_Ik";
+        const message = `✅ Вы успешно записаны на тренировку! \nЖдем Вас ${date} в ${time} 🥊\n
+<i>Чтобы отменить запись — зайдите в приложении во вкладку "Пользователь (👤)" → "Мои Записи"</i>`;
+
+
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: telegramId,
+                    text: message,
+                    parse_mode: "HTML"
+                })
+            });
+        } catch (err) {
+            console.error("Ошибка при отправке сообщения в Telegram:", err);
+        }
+    };
+
 
     return (
         <div className="modal-window-bottom">
