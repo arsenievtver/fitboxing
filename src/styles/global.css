@@ -1,0 +1,134 @@
+@import '_variables.css';
+@font-face {
+    font-family: 'Recama';
+    src: local('Recama'), /* Поддержка ранее установленных шрифтов */
+    url('../assets/fonts/Racama-U.otf') format('opentype'); /* Подключение нашего шрифта */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        position: static; /* Отмена фиксации на маленьких экранах */
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: Recama, sans-serif;
+    line-height: 1.5;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    align-items: start;
+    justify-content: space-between;
+    height: 100%;
+}
+
+#root {
+    width: 100%; /* Ширину устанавливаем на 100% окна */
+    height: 100%;
+}
+
+#app-root {
+    position: relative;
+    padding: 10px;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* или start — но flex-start надёжнее */
+    justify-content: flex-start; /* ВАЖНО: прибивает содержимое к верху */
+    gap: 10px; /* расстояние между элементами */
+    margin-top: 30px; /* если тебе не надо отступ от верха — убери */
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.app-content {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Прижимаем вверх */
+    gap: 10px; /* Расстояние между детьми */
+    margin-top: 50px;
+}
+
+
+.header {
+    display: flex;
+    background-color: var(--background-color);
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;               /* Позиция фиксированная, не прокручивается */
+    top: 0;                       /* Прилеплен сверху */
+    left: 0;                      /* Начальная позиция слева */
+    right: 0;                     /* Расширяется вправо */
+    z-index: 1000;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 10px;
+    border-bottom: 1px solid var(--primary-color) ;
+    font-size: 14px;
+
+
+}
+
+.score {
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-container img {
+    max-width: 250px;
+}
+
+
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%); /* Начинаем вне видимой зоны */
+    }
+    to {
+        transform: translateY(0); /* Заезжаем внутрь окна */
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: color 0.2s, transform 0.2s ease;
+    line-height: 1;
+    padding: 4px;
+    z-index: 10;
+}
+
+.close-button:hover {
+    color: var(--text-color);
+    transform: scale(1.1);
+}

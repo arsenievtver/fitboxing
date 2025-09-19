@@ -1,0 +1,81 @@
+/* Обертка именно для модалки результатов */
+.results-modal-window {
+    width: 100%;   /* ширина экрана с небольшим отступом */
+    box-sizing: border-box;
+}
+
+/* Внутренний контейнер */
+.results-modal {
+    width: 100%;
+}
+
+.results-modal h2 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Список результатов */
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: stretch; /* чтобы строки растягивались */
+}
+
+/* Одна строка результата */
+.result-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+    padding: 5px;
+    background: var(--background-color);
+    border-radius: 10px;
+    font-size: 20px;  /* увеличенный шрифт */
+    gap: 10px;
+}
+
+.result-row.highlight {
+    border: 1px solid var(--primary-color);
+}
+
+/* Место в рейтинге */
+.result-row span.place-rat {
+    width: 36px;
+    text-align: center;
+}
+
+/* Аватар */
+.result-row .avatar-rat {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 5px;
+    flex-shrink: 0;
+}
+
+.result-row .avatar-rat img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Имя */
+.result-row .name-rat {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Очки энергии */
+.result-row .energy-rat {
+    color: var(--primary-color);
+    font-weight: bold;
+}

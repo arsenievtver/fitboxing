@@ -1,0 +1,9 @@
+/* _variables.css */
+:root {
+    --primary-color: #dbff07; /* Основной цвет */
+    --secondary-color: #171920; /* Второстепенный цвет */
+    --background-color: #21242b; /* Фоновый цвет */
+    --text-color: #ffffff; /* Цвет текста */
+    --primary-color-2: #FF075A;
+    --primary-color-3: #781DFF;
+}
